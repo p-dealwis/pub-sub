@@ -5,6 +5,25 @@ using namespace std;
 #include "Tag.h"
 #include "hash.h"
 
+//Gives an interest NOT logic
+void Tag::makeNOT(){
+    _not = true;
+}
+
+/*  Generates a hash for both the attribute and val and then stores it in the 
+*   Tag structure.
+*   @param tag - a Tag object
+*   @param key - private key
+*/
+void Tag::genHash(uint8_t *key){
+    KeyedHash(key, HASH_SIZE, (uint8_t*) _attr,_attrLen, _attrHash, HASH_SIZE);
+    KeyedHash(key, HASH_SIZE, (uint8_t*) _val, _valLen, _valHash, HASH_SIZE);
+}
+
+
+/* ----------- CONTRUCTORS ----------- */
+
+//Tag and Interest Constructor
 Tag::Tag(const char * newAttr, const char * newVal, uint8_t* key, bool isPublisher, char opr){
     strcpy(_attr, newAttr);
     strcpy(_val, newVal);
@@ -18,20 +37,14 @@ Tag::Tag(const char * newAttr, const char * newVal, uint8_t* key, bool isPublish
 //Empty Constructor
 Tag::Tag(){};
 
-//Deconstructor
-Tag::~Tag(){
-    // //Delete Old elements
-    // memset(_attr,0,INPUT_SIZE);
-    // memset(_val,0,INPUT_SIZE);
-    // memset(_attrHash,0,HASH_SIZE);
-    // memset(_valHash,0,INPUT_SIZE);
-
-    // _attrLen = 0;
-    // _valLen = 0;
-
-    // _isPublisher = 0;
-    // _opr = 0;
+//Gate Constructor
+Tag::Tag(int type){
+    _isGate = true;
+    _gateType = type;
 };
+
+//Deconstructor
+Tag::~Tag(){};
 
 //Copy Constructor
 Tag::Tag(const Tag& other){
@@ -108,10 +121,10 @@ Tag::Tag(Tag&& other){
 //Move Assignment
 Tag& Tag::operator=(Tag&& other){
     //Delete old elements
-    memset(other._attr, 0,INPUT_SIZE);
-    memset(other._val, 0, INPUT_SIZE);
-    memset(other._attrHash, 0,HASH_SIZE);
-    memset(other._valHash, 0, HASH_SIZE);   
+    memset(_attr, 0,INPUT_SIZE);
+    memset(_val, 0, INPUT_SIZE);
+    memset(_attrHash, 0,HASH_SIZE);
+    memset(_valHash, 0, HASH_SIZE);   
 
     //Move Attributes and Values
     memcpy(_attr, other._attr,INPUT_SIZE);
@@ -139,7 +152,7 @@ Tag& Tag::operator=(Tag&& other){
     other._opr = 0;
 }
 
-
+/* ----------- DEBUG FUNCTIONS ----------- */
 void Tag::printTag(bool attr, bool val, bool attrHash, bool valHash){
     if (attr) {
         cout << "Attribue: "<< (char*) _attr << " Length: "<< _attrLen << endl;
@@ -148,7 +161,6 @@ void Tag::printTag(bool attr, bool val, bool attrHash, bool valHash){
         cout << "Value: " << (char*) _val << " Length: "<< _valLen << endl;
     }
     if (attrHash) {
-        printf("Attribute Hash Location: %d\n", _attrHash);
         cout << "Attribute Hash:" << endl;
         for (int i = 0; i < HASH_SIZE; i++){
             printf("0x%x ", _attrHash[i]);
@@ -164,15 +176,3 @@ void Tag::printTag(bool attr, bool val, bool attrHash, bool valHash){
     }
     cout << endl;
 }
-
-
-/*  Generates a hash for both the attribute and val and then stores it in the 
-*   Tag structure.
-*   @param tag - a Tag object
-*   @param key - private key
-*/
-void Tag::genHash(uint8_t *key){
-    KeyedHash(key, HASH_SIZE, (uint8_t*) _attr,_attrLen, _attrHash, HASH_SIZE);
-    KeyedHash(key, HASH_SIZE, (uint8_t*) _val, _valLen, _valHash, HASH_SIZE);
-}
-

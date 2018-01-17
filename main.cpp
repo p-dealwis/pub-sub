@@ -71,7 +71,7 @@ int main(){
         Tag("dob","15/06/1995", betaKey, false, '='),
     };
 
-    subArray[2].printTag();
+    subArray[0].printTag();
 
     // pubTag2.printTag(true,false,true,false);
     // g = pubTag1;
@@ -87,8 +87,13 @@ int main(){
 
     interestPermutation(r,subArray,3,false);
 
-    subArray[2].printTag();
+    // TESTING
+    
+    subArray[0].printTag();
 
-
+    for (int i = 0; i < 3; i++){
+        subArray[i].printTag(true,false,false,false);
+    }
+        
 }
 

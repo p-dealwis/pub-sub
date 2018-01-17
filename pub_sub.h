@@ -3,6 +3,6 @@
 
 #include "Tag.h"
 
-void interestPermutation(int seed, Tag *array, int len, bool inverse);
+void interestPermutation(int seed, Tag *array, int len, bool inverse = false);
 
 #endif
