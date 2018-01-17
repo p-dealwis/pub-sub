@@ -153,6 +153,9 @@ Tag& Tag::operator=(Tag&& other){
 }
 
 /* ----------- DEBUG FUNCTIONS ----------- */
+
+/*Prints out all important tag information
+*/
 void Tag::printTag(bool attr, bool val, bool attrHash, bool valHash){
     if (attr) {
         cout << "Attribue: "<< (char*) _attr << " Length: "<< _attrLen << endl;
