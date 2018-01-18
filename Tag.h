@@ -11,9 +11,18 @@
 
 class Tag {
 public:
+    //Search Functionality
+    bool operator==(const Tag& other);
+    
+    //Gate Functionality
+    void makeNOT();
+    bool checkValue(Tag* otherLeftTag, Tag* otherRightTag);
+
     //Constructor Methods
     Tag(const char*, const char*, uint8_t*, bool = true, char = '=');
-    Tag(int);
+    Tag(int, Tag*, bool, Tag*, bool);
+    Tag(int, Tag*, Tag*, bool);
+    Tag(int, Tag*, Tag*);
     Tag();
     //Deconstructor
     ~Tag();
@@ -23,12 +32,10 @@ public:
     //Move Constructor and Assignment
     Tag(Tag&& other);
     Tag& operator=(Tag&& other);
-    
-    //Gate Functionality
-    void makeNOT();
 
     //Debugging
-    void printTag(bool = true, bool = true, bool = true, bool = true);
+    void printTag(bool = true, bool = true, bool = true, bool = true, bool = true);
+    void printGateVariables();
 
 private:
     //Variables
@@ -43,6 +50,7 @@ private:
     char _opr;
     bool _not = false;
     //->For Gates
+    bool _gateValue;
     bool _isGate = false;
     int _gateType;
     Tag* _left;

@@ -40,3 +40,4 @@ void interestPermutation(int seed, Tag *array, int len, bool inverse){
         }
     }
 }
+

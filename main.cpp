@@ -58,7 +58,7 @@ int main(){
         Tag("lastName","Babbar", betaKey),
         Tag("age","22", betaKey), 
         Tag("dob","02/01/1995", betaKey),
-        Tag("occupation", "student", betaKey),
+        Tag("occupation", "test analyst", betaKey),
         Tag("height", "165", betaKey),
         Tag("bloodType", "O", betaKey),
         Tag("sex","female", betaKey), 
@@ -69,9 +69,13 @@ int main(){
         Tag("name","Pramodya", betaKey, false, '='), 
         Tag("lastName","De Alwis", betaKey, false, '='), 
         Tag("dob","15/06/1995", betaKey, false, '='),
+        Tag("occupation", "student", betaKey),
+        Tag("sex","female", betaKey), 
+        Tag("bloodType", "A+", betaKey),
     };
 
-    subArray[0].printTag();
+
+    // subArray[0].printTag();
 
     // pubTag2.printTag(true,false,true,false);
     // g = pubTag1;
@@ -85,15 +89,22 @@ int main(){
     //Generate r permutation
     int r = randombytes_random();
 
+    Tag AND1(AND, &subArray[0], true, &subArray[1], false);
+    Tag AND2(AND, &subArray[3], true, &subArray[4], false);
+    Tag OR1(OR, &AND1, &AND1);
+
+    OR1.printTag();
+
     interestPermutation(r,subArray,3,false);
+
 
     // TESTING
     
-    subArray[0].printTag();
+    // subArray[0].printTag();
 
-    for (int i = 0; i < 3; i++){
-        subArray[i].printTag(true,false,false,false);
-    }
+    // for (int i = 0; i < 3; i++){
+    //     subArray[i].printTag(true,false,false,false);
+    // }
         
 }
 

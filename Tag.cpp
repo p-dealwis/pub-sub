@@ -5,9 +5,30 @@ using namespace std;
 #include "Tag.h"
 #include "hash.h"
 
+// == Operator
+bool Tag::operator==(const Tag& other) {
+    bool attrBool = memcmp(_attrHash, other._attrHash, HASH_SIZE) == 0;
+    bool valBool = memcmp(_valHash, other._valHash, HASH_SIZE) == 0;
+    if (_not){
+        attrBool = !attrBool;
+    }
+    if (other._not){
+        valBool = !valBool;
+    }
+    return attrBool && valBool;
+}
+
 //Gives an interest NOT logic
 void Tag::makeNOT(){
     _not = true;
+}
+
+//Search and compare
+bool Tag::checkValue(Tag* otherLeftTag, Tag* otherRightTag){
+    bool left = *otherLeftTag == *_left;
+    bool right = *otherRightTag == *_right;
+    if (_gateType == AND) return left && right;
+    else return left || right;
 }
 
 /*  Generates a hash for both the attribute and val and then stores it in the 
@@ -37,10 +58,31 @@ Tag::Tag(const char * newAttr, const char * newVal, uint8_t* key, bool isPublish
 //Empty Constructor
 Tag::Tag(){};
 
-//Gate Constructor
-Tag::Tag(int type){
+//Gate Constructor with 2 Interests
+Tag::Tag(int type, Tag* left, bool leftNOT, Tag* right, bool rightNOT){
     _isGate = true;
     _gateType = type;
+    _left = left;
+    _right = right;
+    if (leftNOT) _left->makeNOT();
+    if (rightNOT) _right->makeNOT();
+};
+
+//Gate Constructor with 1 Gate and 1 Interest
+Tag::Tag(int type, Tag* gate, Tag* interest, bool interestNOT){
+    _isGate = true;
+    _gateType = type;
+    _left = gate;
+    _right = interest;
+    if (interestNOT) _right->makeNOT();
+};
+
+//Gate Constructor with 2 Gates
+Tag::Tag(int type, Tag* left, Tag* right){
+    _isGate = true;
+    _gateType = type;
+    _left = left;
+    _right = right;
 };
 
 //Deconstructor
@@ -156,26 +198,45 @@ Tag& Tag::operator=(Tag&& other){
 
 /*Prints out all important tag information
 */
-void Tag::printTag(bool attr, bool val, bool attrHash, bool valHash){
-    if (attr) {
-        cout << "Attribue: "<< (char*) _attr << " Length: "<< _attrLen << endl;
-    }
-    if (val) {
-        cout << "Value: " << (char*) _val << " Length: "<< _valLen << endl;
-    }
-    if (attrHash) {
-        cout << "Attribute Hash:" << endl;
-        for (int i = 0; i < HASH_SIZE; i++){
-            printf("0x%x ", _attrHash[i]);
+void Tag::printTag(bool attr, bool val, bool attrHash, bool valHash, bool NOT){
+    if (_isGate){
+        printGateVariables();
+    } else {
+        cout << "       --------------------       " << endl;
+        if (_isPublisher) cout << "THIS IS A TAG" << endl;
+        else cout << "THIS IS AN INTEREST" << endl;
+
+        if (attr) {
+            cout << "Attribue: "<< (char*) _attr << " Length: "<< _attrLen << endl;
         }
-        cout << endl;
-    }
-    if (valHash) {
-        cout << "Value Hash:" << endl;
-        for (int i = 0; i < HASH_SIZE; i++){
-            printf("0x%x ", _valHash[i]);
+        if (val) {
+            cout << "Value: " << (char*) _val << " Length: "<< _valLen << endl;
         }
-        cout << endl;
+        cout << "NOT: " << _not << endl;
+        if (attrHash) {
+            cout << "Attribute Hash:" << endl;
+            for (int i = 0; i < HASH_SIZE; i++){
+                printf("0x%x ", _attrHash[i]);
+            }
+            cout << endl;
+        }
+        if (valHash) {
+            cout << "Value Hash:" << endl;
+            for (int i = 0; i < HASH_SIZE; i++){
+                printf("0x%x ", _valHash[i]);
+            }
+            cout << endl;
+        }
+        cout << "       --------------------       " << endl;
     }
-    cout << endl;
+}
+
+void Tag::printGateVariables(){
+    string type;
+    if (_gateType == AND) type = "AND"; else type = "OR";
+    cout << "THIS IS AN " << type << " GATE" << endl;
+    cout << "------------------------------------" << endl;
+    _left->printTag(true,true,false,false);
+    _right->printTag(true,true,false,false);
+    cout << "------------------------------------" << endl;
 }
