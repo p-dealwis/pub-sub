@@ -41,3 +41,11 @@ void interestPermutation(int seed, Tag *array, int len, bool inverse){
     }
 }
 
+void matchInterests(Tag *pubArray, int pubLen, Tag *subArray, int subLen){
+    int i,j;
+    for (i = 0; i < pubLen; i++){
+        for (j = 0; j < subLen; j++){
+            if(pubArray[i] == subArray[j]) subArray[j].matched();
+        }
+    }
+} 

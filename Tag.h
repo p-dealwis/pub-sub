@@ -13,13 +13,16 @@ class Tag {
 public:
     //Search Functionality
     bool operator==(const Tag& other);
+    void matched();
     
     //Gate Functionality
     void makeNOT();
+    void makeParent();
     bool checkValue(Tag* otherLeftTag, Tag* otherRightTag);
 
     //Constructor Methods
-    Tag(const char*, const char*, uint8_t*, bool = true, char = '=');
+    Tag(const char*, const char*, uint8_t*, int, char = '=');
+    Tag(const char*, const char*, uint8_t*);
     Tag(int, Tag*, bool, Tag*, bool);
     Tag(int, Tag*, Tag*, bool);
     Tag(int, Tag*, Tag*);
@@ -46,12 +49,15 @@ private:
     uint8_t _valHash [HASH_SIZE];
     int _attrLen;
     int _valLen;
-    bool _isPublisher;
-    char _opr;
+    int _interestNum;
+    bool _isPublisher = true;
+    char _opr = '=';
+    bool _match = false;
     bool _not = false;
     //->For Gates
     bool _gateValue;
     bool _isGate = false;
+    bool _parent = false;
     int _gateType;
     Tag* _left;
     Tag* _right;

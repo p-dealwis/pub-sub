@@ -56,7 +56,7 @@ int main(){
         Tag("name","Rhea", betaKey),
         Tag("middleName", "", betaKey),
         Tag("lastName","Babbar", betaKey),
-        Tag("age","22", betaKey), 
+        Tag("age","23", betaKey), 
         Tag("dob","02/01/1995", betaKey),
         Tag("occupation", "test analyst", betaKey),
         Tag("height", "165", betaKey),
@@ -66,12 +66,16 @@ int main(){
 
     //Array of interests
     Tag subArray[] = {
-        Tag("name","Pramodya", betaKey, false, '='), 
-        Tag("lastName","De Alwis", betaKey, false, '='), 
-        Tag("dob","15/06/1995", betaKey, false, '='),
-        Tag("occupation", "student", betaKey),
-        Tag("sex","female", betaKey), 
-        Tag("bloodType", "A+", betaKey),
+        Tag("paitiendID", "32131315", betaKey, 1, '='),
+        Tag("name","Pramodya", betaKey, 2, '='),
+        Tag("middleName", "", betaKey, 3, '='), 
+        Tag("lastName","De Alwis", betaKey, 4, '='), 
+        Tag("age","22", betaKey, 5, '='), 
+        Tag("dob","15/06/1995", betaKey, 6, '='),
+        Tag("occupation", "student", betaKey, 7, '='),
+        Tag("height", "165", betaKey, 8, '='),
+        Tag("bloodType", "A+", betaKey, 9, '='),
+        Tag("sex","female", betaKey, 10, '='), 
     };
 
 
@@ -86,25 +90,33 @@ int main(){
         printf("Sodium Library failed to initilise");
     }
 
+    //A Structure
+
+    // Tag OR1(AND, &subArray[0], true, &subArray[1], false);
+    // Tag AND1(AND, &subArray[2], true, &subArray[3], false);
+    // Tag AND2(OR, &OR1, &AND1);
+
+    // Tag AND3(AND, &subArray[4], true, &subArray[5], false);
+    // Tag OR2(OR, &AND2, &AND3);
+    
+    // OR2.makeParent();
+
+    // OR2.printTag();
+
     //Generate r permutation
     int r = randombytes_random();
 
-    Tag AND1(AND, &subArray[0], true, &subArray[1], false);
-    Tag AND2(AND, &subArray[3], true, &subArray[4], false);
-    Tag OR1(OR, &AND1, &AND1);
+    interestPermutation(r,subArray,10,false);
 
-    OR1.printTag();
-
-    interestPermutation(r,subArray,3,false);
-
+    matchInterests(pubArray,10,subArray,10);
 
     // TESTING
     
     // subArray[0].printTag();
 
-    // for (int i = 0; i < 3; i++){
-    //     subArray[i].printTag(true,false,false,false);
-    // }
+    for (int i = 0; i < 10; i++){
+        subArray[i].printTag(true,false,false,false,true);
+    }
         
 }
 

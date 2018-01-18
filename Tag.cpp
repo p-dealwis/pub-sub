@@ -9,12 +9,8 @@ using namespace std;
 bool Tag::operator==(const Tag& other) {
     bool attrBool = memcmp(_attrHash, other._attrHash, HASH_SIZE) == 0;
     bool valBool = memcmp(_valHash, other._valHash, HASH_SIZE) == 0;
-    if (_not){
-        attrBool = !attrBool;
-    }
-    if (other._not){
-        valBool = !valBool;
-    }
+    if (_not) attrBool = !attrBool;
+    if (other._not) valBool = !valBool;
     return attrBool && valBool;
 }
 
@@ -23,12 +19,21 @@ void Tag::makeNOT(){
     _not = true;
 }
 
+void Tag::makeParent(){
+    _parent = true;
+}
+
 //Search and compare
 bool Tag::checkValue(Tag* otherLeftTag, Tag* otherRightTag){
     bool left = *otherLeftTag == *_left;
     bool right = *otherRightTag == *_right;
     if (_gateType == AND) return left && right;
     else return left || right;
+}
+
+//Matched
+void Tag::matched(){
+    _match = true;
 }
 
 /*  Generates a hash for both the attribute and val and then stores it in the 
@@ -44,14 +49,24 @@ void Tag::genHash(uint8_t *key){
 
 /* ----------- CONTRUCTORS ----------- */
 
-//Tag and Interest Constructor
-Tag::Tag(const char * newAttr, const char * newVal, uint8_t* key, bool isPublisher, char opr){
+//Interest Constructor
+Tag::Tag(const char * newAttr, const char * newVal, uint8_t* key, int interestNum, char opr){
     strcpy(_attr, newAttr);
     strcpy(_val, newVal);
     _attrLen = strlen(newAttr);
     _valLen = strlen(newVal);
-    _isPublisher = isPublisher;
+    _isPublisher = false;
+    _interestNum = interestNum;
     _opr = opr;
+    genHash(key);
+}
+
+//Tag Constructor
+Tag::Tag(const char * newAttr, const char * newVal, uint8_t* key){
+    strcpy(_attr, newAttr);
+    strcpy(_val, newVal);
+    _attrLen = strlen(newAttr);
+    _valLen = strlen(newVal);
     genHash(key);
 }
 
@@ -198,7 +213,7 @@ Tag& Tag::operator=(Tag&& other){
 
 /*Prints out all important tag information
 */
-void Tag::printTag(bool attr, bool val, bool attrHash, bool valHash, bool NOT){
+void Tag::printTag(bool attr, bool val, bool attrHash, bool valHash, bool extra){
     if (_isGate){
         printGateVariables();
     } else {
@@ -212,7 +227,13 @@ void Tag::printTag(bool attr, bool val, bool attrHash, bool valHash, bool NOT){
         if (val) {
             cout << "Value: " << (char*) _val << " Length: "<< _valLen << endl;
         }
-        cout << "NOT: " << _not << endl;
+        if (extra){
+            if (!_isPublisher){
+                cout << "Interest Num: " << _interestNum << endl;
+                cout << "Matched: " << _match << endl;
+            }
+            cout << "NOT: " << _not << endl;
+        }
         if (attrHash) {
             cout << "Attribute Hash:" << endl;
             for (int i = 0; i < HASH_SIZE; i++){
