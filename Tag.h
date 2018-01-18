@@ -14,15 +14,13 @@ public:
     //Search Functionality
     bool operator==(const Tag& other);
     void matched();
+    bool isMatch();
     
-    //Gate Functionality
-    void makeNOT();
-    void makeParent();
+    //TODO: DELETE IF NOT NEEDED
     bool checkValue(Tag* otherLeftTag, Tag* otherRightTag);
 
     //Constructor Methods
-    Tag(const char*, const char*, uint8_t*, int, char = '=');
-    Tag(const char*, const char*, uint8_t*);
+    Tag(const char*, const char*, uint8_t*, bool = true, char = '=');
     Tag(int, Tag*, bool, Tag*, bool);
     Tag(int, Tag*, Tag*, bool);
     Tag(int, Tag*, Tag*);
@@ -37,8 +35,7 @@ public:
     Tag& operator=(Tag&& other);
 
     //Debugging
-    void printTag(bool = true, bool = true, bool = true, bool = true, bool = true);
-    void printGateVariables();
+    void print(bool = true, bool = true, bool = true, bool = true, bool = true);
 
 private:
     //Variables
@@ -49,18 +46,9 @@ private:
     uint8_t _valHash [HASH_SIZE];
     int _attrLen;
     int _valLen;
-    int _interestNum;
     bool _isPublisher = true;
-    char _opr = '=';
+    char _opr;
     bool _match = false;
-    bool _not = false;
-    //->For Gates
-    bool _gateValue;
-    bool _isGate = false;
-    bool _parent = false;
-    int _gateType;
-    Tag* _left;
-    Tag* _right;
 
     //Tag encryption
     void genHash(uint8_t* key);
