@@ -103,12 +103,22 @@ int main(){
 
     // OR2.printTag();
 
-    //Generate r permutation
+    //Generate r permutation and send to B2
     int r = randombytes_random();
 
+    //Send to B1
     interestPermutation(r,subArray,10,false);
 
+    //Done by B1
     matchInterests(pubArray,10,subArray,10);
+
+    //Done by B2
+    interestPermutation(r,subArray,10,true);
+
+    //Send to B3
+
+    //Done by B3
+
 
     // TESTING
     
