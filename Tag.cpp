@@ -43,14 +43,13 @@ void Tag::genHash(uint8_t *key){
 /* ----------- CONTRUCTORS ----------- */
 
 //Tag and Interest Constructor
-Tag::Tag(const char * newAttr, const char * newVal, uint8_t* key, bool isPublisher, char opr){
+Tag::Tag(const char * newAttr, const char * newVal, bool isPublisher, char opr){
     strcpy(_attr, newAttr);
     strcpy(_val, newVal);
     _attrLen = strlen(newAttr);
     _valLen = strlen(newVal);
     _isPublisher = isPublisher;
     _opr = opr;
-    genHash(key);
 }
 
 //Empty Constructor

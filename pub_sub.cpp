@@ -52,3 +52,9 @@ void matchInterests(Tag *pubArray, int pubLen, Tag *subArray, int subLen){
         }
     }
 }
+
+void genHashArray(uint8_t *key, Tag *array, int len){
+    for(int i = 0; i < len; i++){
+        array[i].genHash(key);
+    }
+}

@@ -29,6 +29,18 @@ int main(){
     uint8_t *betaKey = (unsigned char *)"01234567890123456789012345678901";
     uint8_t *permuteKey = (unsigned char *)"95651313544354956513135443549565";
 
+    // //List of Tags
+    // Tag pubTag1("name","Pramodya");
+    // Tag pubTag2("lastName","De Alwis");
+    // Tag pubTag3("sex","male");
+    // Tag pubTag4("age","22");
+    // Tag pubTag5("dob","15/06/1995");
+
+    // //List of Interests
+    // Tag subInterest1("age","22, false, '=');
+    // Tag subInterest2("sex","male, false, '=');
+    // Tag subInterest3("dob","15/06/1995, false, '=');
+
    
     //Arrays of Tags
     Tag pubArray[] = {
@@ -70,6 +82,17 @@ int main(){
         Tag("bloodType", "A+", false,'='),
         Tag("sex","female", false, '='), 
     };
+
+
+    // subArray[0].print();
+
+    // pubTag2.print(true,false,true,false);
+    // g = pubTag1;
+    // g.print(true,false,true,false);
+
+    // if(pubArray[0] == subArray[0]) subArray[0].matched();
+    // cout << subArray[0].isMatch() << endl;
+
 
     //Encryption of Interests
     genHashArray(betaKey, subArray, 10);
@@ -113,6 +136,16 @@ int main(){
 
     //TODO: Decryption of payload
 
+
+    // TESTING
+    
+    // OR2.print(subArray);
+
+    // subArray[0].print();
+
+    // for (int i = 0; i < 10; i++){
+    //     subArray[i].print(true,false,false,false,true);
+    // }
 
 }
 

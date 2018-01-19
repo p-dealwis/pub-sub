@@ -5,32 +5,28 @@ using namespace std;
 
 #include "Gate.h"
 
-//TODO: Fix Evaluate
+
 bool Gate::evaluate(Tag *subArray){
-    if (_isLeftGate) return evaluate(subArray);
+    bool l = false, r = false;
+    if (_isLeftGate) l = _leftGate->evaluate(subArray);
     else {
-        bool left = subArray[_left].isMatch();
-        cout << "LEFT BEFORE: " << left << endl;
+        l = subArray[_left].isMatch();
         if (_leftNOT){
-            if (left) left = false; else left = true;
+            if (l) l = false; else l = true;
         }
-        cout << "LEFT NOT: " << _leftNOT << endl;
-        cout << "LEFT: " << left << endl;
     }
-    if (_isRightGate) return evaluate(subArray);
+    if (_isRightGate) r = _rightGate->evaluate(subArray);
     else {
-        bool right = subArray[_right].isMatch();
-        cout << "RIGHT BEFORE: " << right << endl;
+        r = subArray[_right].isMatch();
         if (_rightNOT) {
-            if (right) right = false; else right = true;
+            if (r) r = false; else r = true;
         }
-        cout << "RIGHT NOT: " << _rightNOT << endl;
-        cout << "RIGHT: " << right << endl;
     } 
-    if (_gateType == AND) return left && right;
+    if (_gateType == AND ) {
+        if (l && r) return true; else return false;
+    }
     else{
-        cout << "OR" << endl;
-        return left || right;
+        if (l || r) return true; else return false;
     }
 }
 

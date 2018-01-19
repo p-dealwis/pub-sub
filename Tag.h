@@ -11,6 +11,9 @@
 
 class Tag {
 public:
+    //Hash Values
+    void genHash(uint8_t* key);
+
     //Search Functionality
     bool operator==(const Tag& other);
     void matched();
@@ -20,10 +23,7 @@ public:
     bool checkValue(Tag* otherLeftTag, Tag* otherRightTag);
 
     //Constructor Methods
-    Tag(const char*, const char*, uint8_t*, bool = true, char = '=');
-    Tag(int, Tag*, bool, Tag*, bool);
-    Tag(int, Tag*, Tag*, bool);
-    Tag(int, Tag*, Tag*);
+    Tag(const char*, const char*, bool = true, char = '=');
     Tag();
     //Deconstructor
     ~Tag();
@@ -51,7 +51,6 @@ private:
     bool _match = false;
 
     //Tag encryption
-    void genHash(uint8_t* key);
 };
 
 #endif

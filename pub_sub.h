@@ -5,5 +5,6 @@
 
 void interestPermutation(int seed, Tag *array, int len, bool inverse = false);
 void matchInterests(Tag *pubArray, int pubLen, Tag *subArray, int subLen);
+void genHashArray(uint8_t *key, Tag *array, int len);
 
 #endif
