@@ -18,9 +18,6 @@ public:
     bool operator==(const Tag& other);
     void matched();
     bool isMatch();
-    
-    //TODO: DELETE IF NOT NEEDED
-    bool checkValue(Tag* otherLeftTag, Tag* otherRightTag);
 
     //Constructor Methods
     Tag(const char*, const char*, bool = true, char = '=');
