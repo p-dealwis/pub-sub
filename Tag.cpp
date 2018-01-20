@@ -12,13 +12,6 @@ bool Tag::operator==(const Tag& other) {
     return attrBool && valBool;
 }
 
-//Search and compare
-// bool Tag::checkValue(Tag* otherLeftTag, Tag* otherRightTag){
-//     bool left = *otherLeftTag == *_left;
-//     bool right = *otherRightTag == *_right;
-//     if (_gateType == AND) return left && right;
-//     else return left || right;
-// }
 
 //Matched
 void Tag::matched(){
