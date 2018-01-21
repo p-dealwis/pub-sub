@@ -1,16 +1,7 @@
 using namespace std;
 
 #include <gcrypt.h>
-#include <stdio.h>
-#include <openssl/conf.h>
-#include <openssl/evp.h>
-#include <openssl/err.h>
-#include <string.h>
-#include <stdint.h>
-#include <stdbool.h>
 #include <sodium.h>
-#include <utility>
-
 #include <iostream>
 
 #include "Gate.h"
