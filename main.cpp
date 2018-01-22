@@ -94,23 +94,11 @@ int main(){
 
     // Create an attribute-based secret (attributes 1 and 3).
     element_s secret;
-    vector<int> encryptionAttributes {1, 2, 3};
-    Cw_t Cw = createSecret(pub, encryptionAttributes, secret);
+    vector<int> encryptionAttributes {0, 1, 2, 3, 4};
+    auto Cw = createSecret(pub, encryptionAttributes, secret);
+    
     //Encrypt the message
     std::vector<uint8_t> ciphertext = encrypt(pub,encryptionAttributes,text,Cw);
-
-    //First make access policy from subscriber tree
-    Node root = AND2.createABETree();
-    auto key = keyGeneration(priv, root);
-    vector<int> testAttributes {0, 3};
-    element_s recover;
-    Cw_t recoverCw = createSecret(pub, testAttributes, recover);
-    try{
-        string result = decrypt(key, Cw, testAttributes, ciphertext);
-        cout << result << endl;
-    } catch(const UnsatError& e) {
-        cout << "Decryption Error" << endl;
-    }
 
     //Encryption of Interests
     genHashArray(betaKey, subArray, 10);
@@ -138,11 +126,21 @@ int main(){
 
     //Send to B3 - Structure
 
+
     //Done by B3 - Evaluation of Tree
     cout << "Evaluation: " << AND2.evaluate(subArray) << endl;  
 
-    //TODO: Decryption of payload
-
+    //Decryption of payload
+    // -->First make access policy from subscriber tree and generate key
+    Node root = AND2.createABETree();
+    auto key = keyGeneration(priv, root);
+    vector<int> testAttributes {1,2,4};
+    try{
+        string result = decrypt(key, Cw, testAttributes, ciphertext);
+        cout << result << endl;
+    } catch(const UnsatError& e) {
+        cout << "Decryption Error" << endl;
+    }
 
 }
 

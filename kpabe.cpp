@@ -85,14 +85,14 @@ Node::Node(Node&& other):
 
 Node::Node(int attr) {
    this->attr = attr;
-   cout << attr << endl;
+//    cout << attr << endl;
 }
 
 Node::Node(Type type, const vector<Node>& children) {
    this->children = children;
    this->type = type;
-   if (type == Type::AND)  cout << "AND" << endl;
-   else  cout << "OR" << endl;
+//    if (type == Type::AND)  cout << "AND" << endl;
+//    else  cout << "OR" << endl;
    
 }
 
