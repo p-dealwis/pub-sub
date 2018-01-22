@@ -6,19 +6,21 @@ using namespace std;
 #include "hash.h"
 
 // == Operator
-bool Tag::operator==(const Tag& other) {
+bool Tag::operator==(const Tag &other)
+{
     bool attrBool = memcmp(_attrHash, other._attrHash, HASH_SIZE) == 0;
     bool valBool = memcmp(_valHash, other._valHash, HASH_SIZE) == 0;
     return attrBool && valBool;
 }
 
-
 //Matched
-void Tag::matched(){
+void Tag::matched()
+{
     _match = true;
 }
 
-bool Tag::isMatch(){
+bool Tag::isMatch()
+{
     return _match;
 }
 
@@ -27,16 +29,17 @@ bool Tag::isMatch(){
 *   @param tag - a Tag object
 *   @param key - private key
 */
-void Tag::genHash(uint8_t *key){
-    KeyedHash(key, HASH_SIZE, (uint8_t*) _attr,_attrLen, _attrHash, HASH_SIZE);
-    KeyedHash(key, HASH_SIZE, (uint8_t*) _val, _valLen, _valHash, HASH_SIZE);
+void Tag::genHash(uint8_t *key)
+{
+    KeyedHash(key, HASH_SIZE, (uint8_t *)_attr, _attrLen, _attrHash, HASH_SIZE);
+    KeyedHash(key, HASH_SIZE, (uint8_t *)_val, _valLen, _valHash, HASH_SIZE);
 }
-
 
 /* ----------- CONTRUCTORS ----------- */
 
 //Tag and Interest Constructor
-Tag::Tag(const char * newAttr, const char * newVal, bool isPublisher, char opr){
+Tag::Tag(const char *newAttr, const char *newVal, bool isPublisher, char opr)
+{
     strcpy(_attr, newAttr);
     strcpy(_val, newVal);
     _attrLen = strlen(newAttr);
@@ -48,19 +51,19 @@ Tag::Tag(const char * newAttr, const char * newVal, bool isPublisher, char opr){
 //Empty Constructor
 Tag::Tag(){};
 
-
 //Deconstructor
 Tag::~Tag(){};
 
 //Copy Constructor
-Tag::Tag(const Tag& other){
+Tag::Tag(const Tag &other)
+{
     //Copy Attributes and Values
     memcpy(_attr, other._attr, INPUT_SIZE);
     memcpy(_val, other._val, INPUT_SIZE);
 
     //Copy Hashes of attributes and values
-    memcpy( _attrHash, other._attrHash, HASH_SIZE);
-    memcpy( _valHash, other._valHash, HASH_SIZE);    
+    memcpy(_attrHash, other._attrHash, HASH_SIZE);
+    memcpy(_valHash, other._valHash, HASH_SIZE);
 
     //Copy Attributes and Value lengths
     _attrLen = other._attrLen;
@@ -73,20 +76,21 @@ Tag::Tag(const Tag& other){
 }
 
 //Copy Assignment
-Tag& Tag::operator=(const Tag& other){
+Tag &Tag::operator=(const Tag &other)
+{
     //Delete Old elements
-    memset(_attr,0,INPUT_SIZE);
-    memset(_val,0,INPUT_SIZE);
-    memset(_attrHash,0,HASH_SIZE);
-    memset(_valHash,0,HASH_SIZE);
+    memset(_attr, 0, INPUT_SIZE);
+    memset(_val, 0, INPUT_SIZE);
+    memset(_attrHash, 0, HASH_SIZE);
+    memset(_valHash, 0, HASH_SIZE);
 
     //Copy Attributes and Values
     memcpy(_attr, other._attr, INPUT_SIZE);
     memcpy(_val, other._val, INPUT_SIZE);
 
     //Copy Hashes of attributes and values
-    memcpy( _attrHash, other._attrHash, HASH_SIZE);
-    memcpy( _valHash, other._valHash, HASH_SIZE);    
+    memcpy(_attrHash, other._attrHash, HASH_SIZE);
+    memcpy(_valHash, other._valHash, HASH_SIZE);
 
     //Copy Attributes and Value lengths
     _attrLen = other._attrLen;
@@ -99,18 +103,19 @@ Tag& Tag::operator=(const Tag& other){
 }
 
 //Move Contructor
-Tag::Tag(Tag&& other){
+Tag::Tag(Tag &&other)
+{
     //Move Attributes and Values
-    memcpy(_attr, other._attr,INPUT_SIZE);
+    memcpy(_attr, other._attr, INPUT_SIZE);
     memcpy(_val, other._val, INPUT_SIZE);
-    memset(other._attr, 0,INPUT_SIZE);
+    memset(other._attr, 0, INPUT_SIZE);
     memset(other._val, 0, INPUT_SIZE);
 
     //Copy Hashes of attributes and values
-    memcpy( _attrHash, other._attrHash, HASH_SIZE);
-    memcpy( _valHash, other._valHash, HASH_SIZE);
-    memset(other._attrHash, 0,HASH_SIZE);
-    memset(other._valHash, 0, HASH_SIZE);    
+    memcpy(_attrHash, other._attrHash, HASH_SIZE);
+    memcpy(_valHash, other._valHash, HASH_SIZE);
+    memset(other._attrHash, 0, HASH_SIZE);
+    memset(other._valHash, 0, HASH_SIZE);
 
     //Copy Attributes and Value lengths
     _attrLen = other._attrLen;
@@ -129,24 +134,25 @@ Tag::Tag(Tag&& other){
 }
 
 //Move Assignment
-Tag& Tag::operator=(Tag&& other){
+Tag &Tag::operator=(Tag &&other)
+{
     //Delete old elements
-    memset(_attr, 0,INPUT_SIZE);
+    memset(_attr, 0, INPUT_SIZE);
     memset(_val, 0, INPUT_SIZE);
-    memset(_attrHash, 0,HASH_SIZE);
-    memset(_valHash, 0, HASH_SIZE);   
+    memset(_attrHash, 0, HASH_SIZE);
+    memset(_valHash, 0, HASH_SIZE);
 
     //Move Attributes and Values
-    memcpy(_attr, other._attr,INPUT_SIZE);
+    memcpy(_attr, other._attr, INPUT_SIZE);
     memcpy(_val, other._val, INPUT_SIZE);
-    memset(other._attr, 0,INPUT_SIZE);
+    memset(other._attr, 0, INPUT_SIZE);
     memset(other._val, 0, INPUT_SIZE);
 
     //Copy Hashes of attributes and values
-    memcpy( _attrHash, other._attrHash, HASH_SIZE);
-    memcpy( _valHash, other._valHash, HASH_SIZE);
-    memset(other._attrHash, 0,HASH_SIZE);
-    memset(other._valHash, 0, HASH_SIZE);    
+    memcpy(_attrHash, other._attrHash, HASH_SIZE);
+    memcpy(_valHash, other._valHash, HASH_SIZE);
+    memset(other._attrHash, 0, HASH_SIZE);
+    memset(other._valHash, 0, HASH_SIZE);
 
     //Copy Attributes and Value lengths
     _attrLen = other._attrLen;
@@ -168,32 +174,43 @@ Tag& Tag::operator=(Tag&& other){
 
 /*Prints out all important tag information
 */
-void Tag::print(bool attr, bool val, bool attrHash, bool valHash, bool extra){
+void Tag::print(bool attr, bool val, bool attrHash, bool valHash, bool extra)
+{
     cout << "       --------------------       " << endl;
-    if (_isPublisher) cout << "THIS IS A TAG" << endl;
-    else cout << "THIS IS AN INTEREST" << endl;
+    if (_isPublisher)
+        cout << "THIS IS A TAG" << endl;
+    else
+        cout << "THIS IS AN INTEREST" << endl;
 
-    if (attr) {
-        cout << "Attribue: "<< (char*) _attr << " Length: "<< _attrLen << endl;
+    if (attr)
+    {
+        cout << "Attribue: " << (char *)_attr << " Length: " << _attrLen << endl;
     }
-    if (val) {
-        cout << "Value: " << (char*) _val << " Length: "<< _valLen << endl;
+    if (val)
+    {
+        cout << "Value: " << (char *)_val << " Length: " << _valLen << endl;
     }
-    if (extra){
-        if (!_isPublisher){
+    if (extra)
+    {
+        if (!_isPublisher)
+        {
             cout << "Matched: " << _match << endl;
         }
     }
-    if (attrHash) {
+    if (attrHash)
+    {
         cout << "Attribute Hash:" << endl;
-        for (int i = 0; i < HASH_SIZE; i++){
+        for (int i = 0; i < HASH_SIZE; i++)
+        {
             printf("0x%x ", _attrHash[i]);
         }
         cout << endl;
     }
-    if (valHash) {
+    if (valHash)
+    {
         cout << "Value Hash:" << endl;
-        for (int i = 0; i < HASH_SIZE; i++){
+        for (int i = 0; i < HASH_SIZE; i++)
+        {
             printf("0x%x ", _valHash[i]);
         }
         cout << endl;

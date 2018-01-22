@@ -6,39 +6,39 @@
 #define INPUT_SIZE 20
 #define HASH_SIZE 32
 
-
-class Tag {
-public:
+class Tag
+{
+  public:
     //Hash Values
-    void genHash(uint8_t* key);
+    void genHash(uint8_t *key);
 
     //Search Functionality
-    bool operator==(const Tag& other);
+    bool operator==(const Tag &other);
     void matched();
     bool isMatch();
 
     //Constructor Methods
-    Tag(const char*, const char*, bool = true, char = '=');
+    Tag(const char *, const char *, bool = true, char = '=');
     Tag();
     //Deconstructor
     ~Tag();
     //Copy Constructor and Assignment
-    Tag(const Tag& other);
-    Tag& operator=(const Tag& other);
+    Tag(const Tag &other);
+    Tag &operator=(const Tag &other);
     //Move Constructor and Assignment
-    Tag(Tag&& other);
-    Tag& operator=(Tag&& other);
+    Tag(Tag &&other);
+    Tag &operator=(Tag &&other);
 
     //Debugging
     void print(bool = true, bool = true, bool = true, bool = true, bool = true);
 
-private:
+  private:
     //Variables
     //->For Tags/Interests
     char _attr[INPUT_SIZE];
     char _val[INPUT_SIZE];
-    uint8_t _attrHash [HASH_SIZE];
-    uint8_t _valHash [HASH_SIZE];
+    uint8_t _attrHash[HASH_SIZE];
+    uint8_t _valHash[HASH_SIZE];
     int _attrLen;
     int _valLen;
     bool _isPublisher = true;

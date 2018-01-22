@@ -13,24 +13,33 @@ using namespace std;
 *   @param inverse - get original order
 *   TESTED CONFIRMED WORKING
 */
-void interestPermutation(int seed, Tag *array, int len, bool inverse){
+void interestPermutation(int seed, Tag *array, int len, bool inverse)
+{
     int j;
-    if (len > 1) {
+    if (len > 1)
+    {
         int i;
-        if (inverse == true){
-            for (i = len - 1; i > 0; i--) {
+        if (inverse == true)
+        {
+            for (i = len - 1; i > 0; i--)
+            {
                 j = seed % i;
-                if( j < 0){
+                if (j < 0)
+                {
                     j = 0 - j;
                 }
                 Tag t = move(array[j]);
                 array[j] = move(array[i]);
                 array[i] = move(t);
             }
-        } else{
-            for (i = 1; i < len; i++) {
+        }
+        else
+        {
+            for (i = 1; i < len; i++)
+            {
                 j = seed % i;
-                if( j < 0){
+                if (j < 0)
+                {
                     j = 0 - j;
                 }
                 Tag t = move(array[j]);
@@ -41,11 +50,15 @@ void interestPermutation(int seed, Tag *array, int len, bool inverse){
     }
 }
 
-void matchInterests(Tag *pubArray, int pubLen, Tag *subArray, int subLen){
-    int i,j;
-    for (j = 0; j < subLen; j++){
-        for (i = 0; i < pubLen; i++){
-            if(pubArray[i] == subArray[j]) {
+void matchInterests(Tag *pubArray, int pubLen, Tag *subArray, int subLen)
+{
+    int i, j;
+    for (j = 0; j < subLen; j++)
+    {
+        for (i = 0; i < pubLen; i++)
+        {
+            if (pubArray[i] == subArray[j])
+            {
                 subArray[j].matched();
                 break;
             }
@@ -53,8 +66,10 @@ void matchInterests(Tag *pubArray, int pubLen, Tag *subArray, int subLen){
     }
 }
 
-void genHashArray(uint8_t *key, Tag *array, int len){
-    for(int i = 0; i < len; i++){
+void genHashArray(uint8_t *key, Tag *array, int len)
+{
+    for (int i = 0; i < len; i++)
+    {
         array[i].genHash(key);
     }
 }
