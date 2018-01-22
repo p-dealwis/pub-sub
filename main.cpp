@@ -4,6 +4,7 @@ using namespace std;
 #include <sodium.h>
 #include <iostream>
 
+#include "pbc.h"
 #include "Gate.h"
 #include "Tag.h"
 #include "pub_sub.h"
@@ -78,6 +79,13 @@ int main(){
 
     string text = "Hello, my name is Pramodya";
 
+    //Subscriber Tree
+    Gate AND1(Gate::Type::AND, 1, false, 2, false);
+    Gate OR1(Gate::Type::OR, &AND1, 0, true);
+    Gate OR3(Gate::Type::OR, 3, false, 4, false);
+    Gate AND2(Gate::Type::AND, &OR1, &OR3);
+    
+    AND2.makeParent();
 
     //KP-ABE
     PrivateParams priv;
@@ -86,14 +94,23 @@ int main(){
 
     // Create an attribute-based secret (attributes 1 and 3).
     element_s secret;
-    vector<int> encryptionAttributes {0,1,2,3,4,5};
+    vector<int> encryptionAttributes {1, 2, 3};
     Cw_t Cw = createSecret(pub, encryptionAttributes, secret);
     //Encrypt the message
-    std::vector<uint8_t> cipherText = encrypt(pub,encryptionAttributes,text,Cw);
+    std::vector<uint8_t> ciphertext = encrypt(pub,encryptionAttributes,text,Cw);
 
-    //First make access policy and generate key
-    // auto key = keyGeneration(priv, root);
-
+    //First make access policy from subscriber tree
+    Node root = AND2.createABETree();
+    auto key = keyGeneration(priv, root);
+    vector<int> testAttributes {0, 3};
+    element_s recover;
+    Cw_t recoverCw = createSecret(pub, testAttributes, recover);
+    try{
+        string result = decrypt(key, Cw, testAttributes, ciphertext);
+        cout << result << endl;
+    } catch(const UnsatError& e) {
+        cout << "Decryption Error" << endl;
+    }
 
     //Encryption of Interests
     genHashArray(betaKey, subArray, 10);
@@ -120,20 +137,9 @@ int main(){
     interestPermutation(r,subArray,10,true);
 
     //Send to B3 - Structure
-    Gate OR1(Gate::Type::OR, 0, true, 1, true);
-    Gate AND1(Gate::Type::AND, 2, false, 3, false);
 
-    Gate TEST(Gate::Type::OR, &OR1, &AND1);
-
-    Gate AND2(Gate::Type::OR, &OR1, &AND1);
-
-    Gate AND3(Gate::Type::AND, 4, true, 5, false);
-    Gate OR2(Gate::Type::OR, &AND2, &AND3);
-    
-    OR2.makeParent();
-    
     //Done by B3 - Evaluation of Tree
-    cout << "Evaluation: " << OR2.evaluate(subArray) << endl;  
+    cout << "Evaluation: " << AND2.evaluate(subArray) << endl;  
 
     //TODO: Decryption of payload
 

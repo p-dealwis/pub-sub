@@ -22,7 +22,7 @@ bool Gate::evaluate(Tag *subArray){
             if (r) r = false; else r = true;
         }
     } 
-    if (_gateType == Gate::Type::AND ) {
+    if (_gateType == Type::AND ) {
         if (l && r) return true; else return false;
     }
     else{
@@ -66,7 +66,7 @@ Gate::Gate(Type type, Gate* leftGate, Gate* rightGate){
 
 void Gate::print(Tag *subArray){
     string type;
-    if (_gateType == Gate::Type::AND) type = "AND"; else type = "OR";
+    if (_gateType == Type::AND) type = "AND"; else type = "OR";
     cout << "THIS IS AN " << type << " GATE" << endl;
     cout << "------------------------------------" << endl;
     if (!_isLeftGate) {
@@ -84,11 +84,12 @@ void Gate::print(Tag *subArray){
 
 Node Gate::createABETree(){
     int l,r;
-    if (_isLeftGate){
-        _leftGate->createABETree();
-    } else{
-        _rightGate->createABETree();
+    Node::Type type = _gateType == Type::AND ? Node::Type::AND : Node::Type::OR;
+    if(_isRightGate){
+        return Node(type,{_leftGate->createABETree(), _rightGate->createABETree()});
+    } else if(_isLeftGate){
+        return Node(type,{_leftGate->createABETree(), Node(_right)});
+    } else {
+        return Node(type,{ Node(_left), Node(_right)});
     }
-    //TODO: FIX
-    return Node(Node::Type::OR,{l,r});
 }
