@@ -2,25 +2,26 @@
 #define GATE_H
 
 #include "Tag.h"
-
-#define AND 0
-#define OR 1
+#include "kpabe.hpp"
 
 class Gate {
+public:    
+    enum Type { OR, AND };
 public:
     bool evaluate(Tag *subArray);
     void makeParent();
     void print(Tag *subArray);
-    Gate(int, int, bool, int, bool);
-    Gate(int, Gate*, int, bool);
-    Gate(int, Gate*, Gate*);
+    Gate(Type, int, bool, int, bool);
+    Gate(Type, Gate*, int, bool);
+    Gate(Type, Gate*, Gate*);
+    Node createABETree();
 
 private:
     bool _gateValue;
     bool _isLeftGate = true;
     bool _isRightGate = true;
     bool _parent = false;
-    int _gateType;
+    Type _gateType;
     Gate* _leftGate;
     Gate* _rightGate;
 

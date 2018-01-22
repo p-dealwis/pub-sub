@@ -8,15 +8,16 @@ g++ -std=gnu++14 -o main.exe main.cpp Tag.cpp hash.cpp pub_sub.cpp Gate.cpp kpab
 
 ## Dev Libraries Used
 [linker = args]
-libgcrypt20-dev - Libgcrypt = `libgcrypt-config --libs`
-libssl-dev - OpenSSL = -lssl -lcrypto
-libsodium-dev - LibSodium  (Generating random seed numbers and keys) = -lsodium
+
+1. **Libgcrypt** - libgcrypt20-dev = `libgcrypt-config --libs`
+2. **OpenSSL** - libssl-dev = `-lssl -lcrypto`
+3. **LibSodium** - libsodium-dev (Generating random seed numbers and keys) = `-lsodium`
 
 ## KP-ABE Library Dependencies
-**kpabe-yct14-cpp** - https://github.com/ikalchev/kpabe-yct14-cpp.git = -lkpabe
-**GMP** - The GNU Multiple Precision Arithmetic Library - https://gmplib.org/ = -lpbc 
-**PBC** - Pairing-Based Cryptography Library - https://crypto.stanford.edu/pbc/ = -lgmp 
----> Installed in /usr/local/ folder
-mbedcrypto from mbedtls - libmbedtls-dev = -lmbedcrypto -lm
+1. **kpabe-yct14-cpp** - https://github.com/ikalchev/kpabe-yct14-cpp.git = `-lkpabe`
+2. **GMP** - The GNU Multiple Precision Arithmetic Library - https://gmplib.org/ = `-lpbc`
+3. **PBC** - Pairing-Based Cryptography Library - https://crypto.stanford.edu/pbc/ = `-lgmp` 
+    - Installed in /usr/local/ folder
+4. **mbedcrypto** from mbedtls - libmbedtls-dev = `-lmbedcrypto -lm`
 
-Include /usr/local/lib = -I. -I/usr/local/include -I/usr/local/include/pbc
+- Include /usr/local/lib = -I. -I/usr/local/include -I/usr/local/include/pbc

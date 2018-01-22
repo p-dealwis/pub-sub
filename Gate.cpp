@@ -22,7 +22,7 @@ bool Gate::evaluate(Tag *subArray){
             if (r) r = false; else r = true;
         }
     } 
-    if (_gateType == AND ) {
+    if (_gateType == Gate::Type::AND ) {
         if (l && r) return true; else return false;
     }
     else{
@@ -36,7 +36,7 @@ void Gate::makeParent(){
 }
 
 //Gate Constructor with 2 Interests
-Gate::Gate(int type, int leftNum, bool leftNOT, int rightNum, bool rightNOT){
+Gate::Gate(Type type, int leftNum, bool leftNOT, int rightNum, bool rightNOT){
     _isLeftGate = false;
     _isRightGate = false;
     _gateType = type;
@@ -47,7 +47,7 @@ Gate::Gate(int type, int leftNum, bool leftNOT, int rightNum, bool rightNOT){
 };
 
 //Gate Constructor with 1 Gate and 1 Interest
-Gate::Gate(int type, Gate* gate, int num, bool interestNOT){
+Gate::Gate(Type type, Gate* gate, int num, bool interestNOT){
     _isRightGate = false;
     _gateType = type;
     _leftGate = gate;
@@ -56,7 +56,7 @@ Gate::Gate(int type, Gate* gate, int num, bool interestNOT){
 };
 
 //Gate Constructor with 2 Gates
-Gate::Gate(int type, Gate* leftGate, Gate* rightGate){
+Gate::Gate(Type type, Gate* leftGate, Gate* rightGate){
     _gateType = type;
     _leftGate = leftGate;
     _rightGate = rightGate;
@@ -66,7 +66,7 @@ Gate::Gate(int type, Gate* leftGate, Gate* rightGate){
 
 void Gate::print(Tag *subArray){
     string type;
-    if (_gateType == AND) type = "AND"; else type = "OR";
+    if (_gateType == Gate::Type::AND) type = "AND"; else type = "OR";
     cout << "THIS IS AN " << type << " GATE" << endl;
     cout << "------------------------------------" << endl;
     if (!_isLeftGate) {
@@ -80,4 +80,15 @@ void Gate::print(Tag *subArray){
     }
     else _rightGate->print(subArray);
     cout << "------------------------------------" << endl;
+}
+
+Node Gate::createABETree(){
+    int l,r;
+    if (_isLeftGate){
+        _leftGate->createABETree();
+    } else{
+        _rightGate->createABETree();
+    }
+    //TODO: FIX
+    return Node(Node::Type::OR,{l,r});
 }

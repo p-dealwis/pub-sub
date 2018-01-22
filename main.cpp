@@ -7,7 +7,7 @@ using namespace std;
 #include "Gate.h"
 #include "Tag.h"
 #include "pub_sub.h"
-
+#include "kpabe.hpp"
 
 int main(){
     // Initialise GCRYPT
@@ -20,7 +20,21 @@ int main(){
     uint8_t *betaKey = (unsigned char *)"01234567890123456789012345678901";
     uint8_t *permuteKey = (unsigned char *)"95651313544354956513135443549565";
 
-   
+    // vector<string> attributes {
+    //     "paitientID",
+    //     "name",
+    //     "middleName",
+    //     "lastName",
+    //     "age",
+    //     "dob",
+    //     "occupation",
+    //     "height",
+    //     "bloodType",
+    //     "sex"
+    // };
+    
+    vector <int> attributeUniverse {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+
     //Arrays of Tags
     Tag pubArray[] = {
         Tag("paitientID", "13216541"),
@@ -62,6 +76,25 @@ int main(){
         Tag("sex","female", false, '='), 
     };
 
+    string text = "Hello, my name is Pramodya";
+
+
+    //KP-ABE
+    PrivateParams priv;
+    PublicParams pub;
+    setup(attributeUniverse, pub, priv);
+
+    // Create an attribute-based secret (attributes 1 and 3).
+    element_s secret;
+    vector<int> encryptionAttributes {0,1,2,3,4,5};
+    Cw_t Cw = createSecret(pub, encryptionAttributes, secret);
+    //Encrypt the message
+    std::vector<uint8_t> cipherText = encrypt(pub,encryptionAttributes,text,Cw);
+
+    //First make access policy and generate key
+    // auto key = keyGeneration(priv, root);
+
+
     //Encryption of Interests
     genHashArray(betaKey, subArray, 10);
 
@@ -87,15 +120,15 @@ int main(){
     interestPermutation(r,subArray,10,true);
 
     //Send to B3 - Structure
-    Gate OR1(OR, 0, true, 1, true);
-    Gate AND1(AND, 2, false, 3, false);
+    Gate OR1(Gate::Type::OR, 0, true, 1, true);
+    Gate AND1(Gate::Type::AND, 2, false, 3, false);
 
-    Gate TEST(OR, &OR1, &AND1);
+    Gate TEST(Gate::Type::OR, &OR1, &AND1);
 
-    Gate AND2(OR, &OR1, &AND1);
+    Gate AND2(Gate::Type::OR, &OR1, &AND1);
 
-    Gate AND3(AND, 4, true, 5, false);
-    Gate OR2(OR, &AND2, &AND3);
+    Gate AND3(Gate::Type::AND, 4, true, 5, false);
+    Gate OR2(Gate::Type::OR, &AND2, &AND3);
     
     OR2.makeParent();
     

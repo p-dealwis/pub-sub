@@ -6,8 +6,6 @@
 #define INPUT_SIZE 20
 #define HASH_SIZE 32
 
-#define AND 0
-#define OR 1
 
 class Tag {
 public:
