@@ -1,151 +1,130 @@
 using namespace std;
 
+#include "test.hpp"
+
 #include <gcrypt.h>
-#include <stdio.h>
-#include <openssl/conf.h>
-#include <openssl/evp.h>
-#include <openssl/err.h>
-#include <string.h>
-#include <stdint.h>
-#include <stdbool.h>
 #include <sodium.h>
-#include <utility>
-
 #include <iostream>
+#include <time.h>
 
+#include "pbc.h"
 #include "Gate.h"
 #include "Tag.h"
 #include "pub_sub.h"
+#include "kpabe.hpp"
+#include "Timer.hpp"
 
-
-int main(){
+vector<Timer> test(string text, int testSize)
+{
+    vector<Timer> times = {};
     // Initialise GCRYPT
-    if (!gcry_check_version (GCRYPT_VERSION)){
-        fputs ("libgcrypt version mismatch\n", stderr);
-        exit (2);
+    if (!gcry_check_version(GCRYPT_VERSION))
+    {
+        fputs("libgcrypt version mismatch\n", stderr);
+        exit(2);
     }
 
     /* A 256 bit key */
     uint8_t *betaKey = (unsigned char *)"01234567890123456789012345678901";
-    uint8_t *permuteKey = (unsigned char *)"95651313544354956513135443549565";
 
-    // //List of Tags
-    // Tag pubTag1("name","Pramodya");
-    // Tag pubTag2("lastName","De Alwis");
-    // Tag pubTag3("sex","male");
-    // Tag pubTag4("age","22");
-    // Tag pubTag5("dob","15/06/1995");
+    vector<int> attributeUniverse{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-    // //List of Interests
-    // Tag subInterest1("age","22, false, '=');
-    // Tag subInterest2("sex","male, false, '=');
-    // Tag subInterest3("dob","15/06/1995, false, '=');
+    vector<Tag> pubArray = {};
+    vector<Tag> subArray = {};
+    
+    createTagArray("data.txt", 10, pubArray, subArray);
 
-   
-    //Arrays of Tags
-    Tag pubArray[] = {
-        Tag("paitientID", "13216541"),
-        Tag("name","Pramodya"),
-        Tag("middleName", "Dilan"),
-        Tag("lastName","De Alwis"), 
-        Tag("age","22"), 
-        Tag("dob","15/06/1995"),
-        Tag("occupation", "student"),
-        Tag("height", "182"),
-        Tag("bloodType", "A+"),
-        Tag("sex","male"), 
-    };
+    //Subscriber Tree
+    Gate AND1(Gate::Type::AND, 1, false, 2, false);
+    Gate OR1(Gate::Type::OR, &AND1, 0, true);
+    Gate OR3(Gate::Type::OR, 3, false, 4, false);
+    Gate AND2(Gate::Type::AND, &OR1, &OR3);
 
-    Tag pubArray2[] = {
-        Tag("paitientID", "32131315"),
-        Tag("name","Rhea"),
-        Tag("middleName", ""),
-        Tag("lastName","Babbar"),
-        Tag("age","23"), 
-        Tag("dob","02/01/1995"),
-        Tag("occupation", "test analyst"),
-        Tag("height", "165"),
-        Tag("bloodType", "O"),
-        Tag("sex","female"), 
-    };
+    AND2.makeParent();
 
-    //Array of interests
-    Tag subArray[] = {
-        Tag("paitientID", "32131315", false,'='),
-        Tag("name","Pramodya", false,'='),
-        Tag("middleName", "", false,'='), 
-        Tag("lastName","De Alwis", false,'='), 
-        Tag("age","22", false,'='), 
-        Tag("dob","15/06/1995", false,'='),
-        Tag("occupation", "student", false,'='),
-        Tag("height", "165", false,'='),
-        Tag("bloodType", "A+", false,'='),
-        Tag("sex","female", false, '='), 
-    };
+    //KP-ABE
+    PrivateParams priv;
+    PublicParams pub;
+    setup(attributeUniverse, pub, priv);
 
+    //Make access policy from subscriber tree and generate key
+    Node root = AND2.createABETree();
+    auto key = keyGeneration(priv, root);
 
-    // subArray[0].print();
+    addTime("Init", clock(), times);
 
-    // pubTag2.print(true,false,true,false);
-    // g = pubTag1;
-    // g.print(true,false,true,false);
+    // Create an attribute-based secret (attributes 1 and 3).
+    element_s secret;
+    vector<int> encryptionAttributes{0, 1, 2, 3, 4};
+    auto Cw = createSecret(pub, encryptionAttributes, secret);
 
-    // if(pubArray[0] == subArray[0]) subArray[0].matched();
-    // cout << subArray[0].isMatch() << endl;
-
+    //Encrypt the message
+    std::vector<uint8_t> ciphertext = encrypt(pub, encryptionAttributes, text, Cw);
+    addTime("Encrypt of Payload by Pub", clock(), times);
 
     //Encryption of Interests
-    genHashArray(betaKey, subArray, 10);
-
-    if(sodium_init() == -1){
-        printf("Sodium Library failed to initilise");
-    }
+    genHashArray(betaKey, subArray);
+    addTime("Encrypt Of Filter", clock(), times);
 
     //Generate r permutation and send to B2
+    if (sodium_init() == -1)
+    {
+        printf("Sodium Library failed to initilise");
+    }
     int r = randombytes_random();
-    
+
     //From Sub to B1 - PRP
-    interestPermutation(r,subArray,10,false);
+    interestPermutation(r, subArray, false);
+    addTime("Permutation Time on Sub", clock(), times);
 
     //Encryption time of Tags
-    genHashArray(betaKey, pubArray, 10);
-
-    //TODO: Encryption of payload
+    genHashArray(betaKey, pubArray);
+    addTime("Encrypt Of Tags", clock(), times);
 
     //Done by B1 - Search
-    matchInterests(pubArray,10,subArray,10);
+    matchInterests(pubArray, subArray);
+    addTime("Search time of B1", clock(), times);
 
     //Done by B2 - PRP Reverse
-    interestPermutation(r,subArray,10,true);
+    interestPermutation(r, subArray, true);
+    addTime("PRP reverse B2", clock(), times);
 
     //Send to B3 - Structure
-    Gate OR1(OR, 0, true, 1, true);
-    Gate AND1(AND, 2, false, 3, false);
 
-    Gate TEST(OR, &OR1, &AND1);
-
-    Gate AND2(OR, &OR1, &AND1);
-
-    Gate AND3(AND, 4, true, 5, false);
-    Gate OR2(OR, &AND2, &AND3);
-    
-    OR2.makeParent();
-    
     //Done by B3 - Evaluation of Tree
-    cout << "Evaluation: " << OR2.evaluate(subArray) << endl;  
-
-    //TODO: Decryption of payload
-
-
-    // TESTING
+    int eval = AND2.evaluate(subArray);
+    if (eval == 1) cout << "Evaluated" << endl;
+    else cout << "Evaluation Failiure" << endl;
     
-    // OR2.print(subArray);
-
-    // subArray[0].print();
-
-    // for (int i = 0; i < 10; i++){
-    //     subArray[i].print(true,false,false,false,true);
-    // }
-
+    addTime("Evaluation of tree by B3", clock(), times);
+    
+    //Decryption of payload
+    vector<int> testAttributes{1, 2, 4};
+    string result;
+    try
+    {
+        result = decrypt(key, Cw, testAttributes, ciphertext);
+    }
+    catch (const UnsatError &e)
+    {
+        cout << "Decryption Error" << endl;
+    }
+    addTime("Decryption of Payload by sub", clock(), times);
+    totalTime(times);
+    totalTime(times, false);
+    if (result == text) cout << "Decrypted Successfully" << endl;
+    else cout << "Unsuccessful Decryption" << endl;
+    return times;
 }
 
+static const char alphanum[] = "0123456789!@#$^&*ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ";
+
+string randomString(int len){
+    srand (time(NULL));
+    string text = "";
+    for(int i = 0; i < len; i++){
+        int num = rand() % 70;
+        text += alphanum[num];
+    }
+    return text;
+}

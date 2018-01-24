@@ -1,10 +1,13 @@
 #ifndef PUB_SUB_H
 #define PUB_SUB_H
 
+#include <vector>
 #include "Tag.h"
 
-void interestPermutation(int seed, Tag *array, int len, bool inverse = false);
-void matchInterests(Tag *pubArray, int pubLen, Tag *subArray, int subLen);
-void genHashArray(uint8_t *key, Tag *array, int len);
+void createTagArray(string fileName, int len, vector<Tag> &pubArray, vector<Tag> &subArray);
+void interestPermutation(int seed, vector<Tag> &array, bool inverse = false);
+void matchInterests(vector<Tag> &pubArray, vector<Tag> &subArray);
+void genHashArray(uint8_t *key, vector<Tag> &array);
+void printArray(vector<Tag> &array);
 
 #endif

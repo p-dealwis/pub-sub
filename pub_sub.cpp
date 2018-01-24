@@ -2,6 +2,11 @@ using namespace std;
 
 #include <utility>
 #include <iostream>
+#include <vector>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <vector>
 
 #include "pub_sub.h"
 #include "Tag.h"
@@ -13,9 +18,10 @@ using namespace std;
 *   @param inverse - get original order
 *   TESTED CONFIRMED WORKING
 */
-void interestPermutation(int seed, Tag *array, int len, bool inverse)
+void interestPermutation(int seed, vector<Tag> &array, bool inverse)
 {
     int j;
+    int len = array.size();
     if (len > 1)
     {
         int i;
@@ -28,9 +34,7 @@ void interestPermutation(int seed, Tag *array, int len, bool inverse)
                 {
                     j = 0 - j;
                 }
-                Tag t = move(array[j]);
-                array[j] = move(array[i]);
-                array[i] = move(t);
+                iter_swap(array.begin()+j, array.begin()+i);
             }
         }
         else
@@ -42,20 +46,18 @@ void interestPermutation(int seed, Tag *array, int len, bool inverse)
                 {
                     j = 0 - j;
                 }
-                Tag t = move(array[j]);
-                array[j] = move(array[i]);
-                array[i] = move(t);
+                iter_swap(array.begin()+j, array.begin()+i);
             }
         }
     }
 }
 
-void matchInterests(Tag *pubArray, int pubLen, Tag *subArray, int subLen)
+void matchInterests(vector<Tag> &pubArray, vector<Tag> &subArray)
 {
     int i, j;
-    for (j = 0; j < subLen; j++)
+    for (j = 0; j < subArray.size(); j++)
     {
-        for (i = 0; i < pubLen; i++)
+        for (i = 0; i < pubArray.size() ; i++)
         {
             if (pubArray[i] == subArray[j])
             {
@@ -66,10 +68,49 @@ void matchInterests(Tag *pubArray, int pubLen, Tag *subArray, int subLen)
     }
 }
 
-void genHashArray(uint8_t *key, Tag *array, int len)
+void genHashArray(uint8_t *key, vector<Tag> &array)
 {
-    for (int i = 0; i < len; i++)
+    for (int i = 0; i < array.size(); i++)
     {
         array[i].genHash(key);
+    }
+}
+
+void createTagArray(string fileName, int len, vector<Tag> &pubArray, vector<Tag> &subArray)
+{
+    vector<vector<string>> data;
+    ifstream infile(fileName);
+    while (infile)
+    {
+        string s;
+        if (!getline(infile, s))
+            break;
+
+        istringstream ss(s);
+        vector<string> record;
+
+        while (ss)
+        {
+            string s;
+            if (!getline(ss, s, ','))
+                break;
+            record.push_back(s);
+        }
+
+        data.push_back( record );
+    }
+
+    for (int i = 0; i < len; i++)
+    {
+        pubArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str()));
+        subArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str(),false,'='));
+    }
+}
+
+void printArray(vector<Tag> &array)
+{
+    for (int i = 0; i < array.size(); i++)
+    {
+        array[i].print(true,true,false,false,false);
     }
 }

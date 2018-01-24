@@ -5,7 +5,7 @@ using namespace std;
 
 #include "Gate.h"
 
-bool Gate::evaluate(Tag *subArray)
+bool Gate::evaluate(vector<Tag> &subArray)
 {
     bool l = false, r = false;
     if (_isLeftGate)
