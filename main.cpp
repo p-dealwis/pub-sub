@@ -25,6 +25,7 @@ int main()
                 tests.push_back(trial);
             }
             vector<Timer> average = averageArray(tests);
+            
             results.push_back(Tests blah= {average, i, j});
         }   
     }
