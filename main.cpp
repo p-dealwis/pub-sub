@@ -6,13 +6,14 @@ using namespace std;
 
 #include "Timer.hpp"
 #include "test.hpp"
+#include "pub_sub.h"
 
 #define KB 1000
 #define MB KB*KB
-#define NUM_TESTS 4
+#define NUM_TESTS 100
 
-// vector<int> number = {KB,MB,MB*2,MB*4,MB*8,MB*16,MB*32,MB*64,MB*128};
-vector<int> number = {KB,MB,MB*2};
+vector<int> number = {KB,MB,MB*2,MB*4,MB*8,MB*16,MB*32,MB*64,MB*128};
+// vector<int> number = {KB,MB,MB*2};
 
 int main()
 {
@@ -28,4 +29,6 @@ int main()
             results.push_back(Tests(average, number[i], j));
         }   
     }
+    saveResults("results.csv", results);
+    cout << "DONE" << endl;
 }

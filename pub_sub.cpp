@@ -114,3 +114,22 @@ void printArray(vector<Tag> &array)
         array[i].print(true,true,false,false,false);
     }
 }
+
+void saveResults(string filename, vector<Tests> results){
+    ofstream ofs(filename, std::ofstream::out);
+    //Headers
+    ofs << "Data Size(KB),No. Tags," ;
+    for (int i = 0; i < results[0].Timers.size(); i++){
+        ofs << results[0].Timers[i].name << "," ;
+    }
+    ofs << endl;
+
+    //Write Data
+    for(int j = 0; j < results.size(); j++){
+        ofs << results[j].dataSize/1000 << "," << results[j].tagSize << ",";
+        for (int k = 0; k < results[k].Timers.size(); k++){
+            ofs << results[j].Timers[k].mseconds << ",";
+        }
+        ofs << endl;
+    }
+}

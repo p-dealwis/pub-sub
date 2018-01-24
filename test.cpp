@@ -93,7 +93,7 @@ vector<Timer> test(string text, int testSize)
 
     //Done by B3 - Evaluation of Tree
     int eval = AND2.evaluate(subArray);
-    if (eval == 1) cout << "Evaluated" << endl;
+    if (eval == 1) ;//cout << "Evaluated" << endl;
     else cout << "Evaluation Failiure" << endl;
     
     addTime("Evaluation of tree by B3", clock(), times);
@@ -112,7 +112,7 @@ vector<Timer> test(string text, int testSize)
     addTime("Decryption of Payload by sub", clock(), times);
     totalTime(times);
     totalTime(times, false);
-    if (result == text) cout << "Decrypted Successfully" << endl;
+    if (result == text) ;//cout << "Decrypted Successfully" << endl;
     else cout << "Unsuccessful Decryption" << endl;
     return times;
 }
