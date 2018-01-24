@@ -5,7 +5,7 @@
 using namespace std;
 
 
-class Tests:
+class Tests{
 public:
     vector<Timer> Timers;
     int dataSize;
