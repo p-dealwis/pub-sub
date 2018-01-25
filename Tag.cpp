@@ -9,9 +9,9 @@ using namespace std;
 // == Operator
 bool Tag::operator==(const Tag &other)
 {
-    bool attrBool = memcmp(_attrHash, other._attrHash, HASH_SIZE) == 0;
-    bool valBool = memcmp(_valHash, other._valHash, HASH_SIZE) == 0;
-    return attrBool && valBool;
+    return memcmp(_attrHash, other._attrHash, HASH_SIZE) == 0;
+    // bool valBool = memcmp(_valHash, other._valHash, HASH_SIZE) == 0;
+    // return attrBool && valBool;
 }
 
 //Matched
@@ -38,8 +38,16 @@ void Tag::genHash(uint8_t *key)
 
 void Tag::genSubHash(uint8_t *key){
     genHash(key);
-    r = randomString(HASH_SIZE);
-    KeyedHash(_valHash, HASH_SIZE, (uint8_t *)r.c_str(), HASH_SIZE, _rHash, HASH_SIZE);
+    _r  = randomString(HASH_SIZE);
+    KeyedHash(_valHash, HASH_SIZE, (uint8_t *)_r.c_str(), HASH_SIZE, _rHash, HASH_SIZE);
+}
+
+
+bool Tag::compareRHash(Tag interest){
+    uint8_t tempHash[HASH_SIZE];
+    KeyedHash(_valHash, HASH_SIZE, (uint8_t *)interest._r.c_str(), HASH_SIZE, tempHash, HASH_SIZE);
+    KeyedHash(_valHash, HASH_SIZE, (uint8_t *)interest._r.c_str(), HASH_SIZE, _rHash, HASH_SIZE);
+    return memcmp(tempHash, interest._rHash, HASH_SIZE) == 0;
 }
 
 /* ----------- CONTRUCTORS ----------- */
@@ -71,6 +79,7 @@ Tag::Tag(const Tag &other)
     //Copy Hashes of attributes and values
     memcpy(_attrHash, other._attrHash, HASH_SIZE);
     memcpy(_valHash, other._valHash, HASH_SIZE);
+    memcpy(_rHash, other._rHash, HASH_SIZE);
 
     //Copy Attributes and Value lengths
     _attrLen = other._attrLen;
@@ -80,6 +89,7 @@ Tag::Tag(const Tag &other)
     _isPublisher = other._isPublisher;
     _opr = other._opr;
     _match = other._match;
+    _r = other._r;
 }
 
 //Copy Assignment
@@ -90,6 +100,7 @@ Tag &Tag::operator=(const Tag &other)
     memset(_val, 0, INPUT_SIZE);
     memset(_attrHash, 0, HASH_SIZE);
     memset(_valHash, 0, HASH_SIZE);
+    memset(_rHash, 0, HASH_SIZE);
 
     //Copy Attributes and Values
     memcpy(_attr, other._attr, INPUT_SIZE);
@@ -98,6 +109,7 @@ Tag &Tag::operator=(const Tag &other)
     //Copy Hashes of attributes and values
     memcpy(_attrHash, other._attrHash, HASH_SIZE);
     memcpy(_valHash, other._valHash, HASH_SIZE);
+    memcpy(_rHash, other._rHash, HASH_SIZE);
 
     //Copy Attributes and Value lengths
     _attrLen = other._attrLen;
@@ -107,6 +119,7 @@ Tag &Tag::operator=(const Tag &other)
     _isPublisher = other._isPublisher;
     _opr = other._opr;
     _match = other._match;
+    _r = other._r;
 }
 
 //Move Contructor
@@ -121,8 +134,10 @@ Tag::Tag(Tag &&other)
     //Copy Hashes of attributes and values
     memcpy(_attrHash, other._attrHash, HASH_SIZE);
     memcpy(_valHash, other._valHash, HASH_SIZE);
+    memcpy(_rHash, other._rHash, HASH_SIZE);
     memset(other._attrHash, 0, HASH_SIZE);
     memset(other._valHash, 0, HASH_SIZE);
+    memset(other._rHash, 0, HASH_SIZE);
 
     //Copy Attributes and Value lengths
     _attrLen = other._attrLen;
@@ -134,10 +149,12 @@ Tag::Tag(Tag &&other)
     _isPublisher = other._isPublisher;
     _opr = other._opr;
     _match = other._match;
-
+    _r = other._r;
+    
     other._isPublisher = 0;
     other._opr = 0;
     other._match = 0;
+    other._r = "";
 }
 
 //Move Assignment
@@ -148,6 +165,7 @@ Tag &Tag::operator=(Tag &&other)
     memset(_val, 0, INPUT_SIZE);
     memset(_attrHash, 0, HASH_SIZE);
     memset(_valHash, 0, HASH_SIZE);
+    memset(_rHash, 0, HASH_SIZE);
 
     //Move Attributes and Values
     memcpy(_attr, other._attr, INPUT_SIZE);
@@ -158,8 +176,10 @@ Tag &Tag::operator=(Tag &&other)
     //Copy Hashes of attributes and values
     memcpy(_attrHash, other._attrHash, HASH_SIZE);
     memcpy(_valHash, other._valHash, HASH_SIZE);
+    memcpy(_rHash, other._rHash, HASH_SIZE);
     memset(other._attrHash, 0, HASH_SIZE);
     memset(other._valHash, 0, HASH_SIZE);
+    memset(other._rHash, 0, HASH_SIZE);
 
     //Copy Attributes and Value lengths
     _attrLen = other._attrLen;
@@ -171,10 +191,12 @@ Tag &Tag::operator=(Tag &&other)
     _isPublisher = other._isPublisher;
     _opr = other._opr;
     _match = other._match;
+    _r = other._r;
 
     other._isPublisher = 0;
     other._opr = 0;
     other._match = 0;
+    other._r = "";
 }
 
 /* ----------- DEBUG FUNCTIONS ----------- */

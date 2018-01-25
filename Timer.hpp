@@ -11,6 +11,7 @@ class Timer{
 private:
     clock_t t;
     float diff;
+    clock_t zero;
 
 public:
     float mseconds;

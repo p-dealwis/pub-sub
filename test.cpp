@@ -67,9 +67,9 @@ vector<Timer> test(string text, int testSize)
     Gate AND1(Gate::Type::AND, 1, false, 2, false);
     Gate OR1(Gate::Type::OR, &AND1, 0, true);
     Gate OR3(Gate::Type::OR, 3, false, 4, false);
-    Gate AND2(Gate::Type::AND, &OR1, &OR3);
+    Gate OR4(Gate::Type::OR, &OR1, &OR3);
 
-    AND2.makeParent();
+    OR4.makeParent();
 
     //KP-ABE
     PrivateParams priv;
@@ -77,7 +77,7 @@ vector<Timer> test(string text, int testSize)
     setup(attributeUniverse, pub, priv);
 
     //Make access policy from subscriber tree and generate key
-    Node root = AND2.createABETree();
+    Node root = OR4.createABETree();
     auto key = keyGeneration(priv, root);
 
     addTime("Init", clock(), times);
@@ -95,7 +95,7 @@ vector<Timer> test(string text, int testSize)
     for (int i = 0; i < subArray.size(); i++){
         subArray[i].genSubHash(betaKey);
     }
-    addTime("Encrypt Of Filter", clock(), times);
+    addTime("Interests Encryption", clock(), times);
 
     //Generate r permutation and send to B2
     if (sodium_init() == -1)
@@ -116,7 +116,7 @@ vector<Timer> test(string text, int testSize)
 
     //Done by B1 - Search
     matchInterests(pubArray, subArray);
-    addTime("Search time of B1", clock(), times);
+    addTime("Search and  decryption time on B1", clock(), times);
 
     //Done by B2 - PRP Reverse
     interestPermutation(r, subArray, true);
@@ -125,7 +125,7 @@ vector<Timer> test(string text, int testSize)
     //Send to B3 - Structure
 
     //Done by B3 - Evaluation of Tree
-    int eval = AND2.evaluate(subArray);
+    int eval = OR4.evaluate(subArray);
     if (eval == 1) ;//cout << "Evaluated" << endl;
     else cout << "Evaluation Failiure" << endl;
     
@@ -153,7 +153,10 @@ vector<Timer> test(string text, int testSize)
 static const char alphanum[] = "0123456789!@#$^&*ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ";
 
 string randomString(int len){
-    srand (time(NULL));
+    if (sodium_init() == -1){
+        printf("Sodium Library failed to initilise");
+    }
+    srand (randombytes_random());
     string text = "";
     for(int i = 0; i < len; i++){
         int num = rand() % 70;

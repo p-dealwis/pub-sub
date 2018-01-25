@@ -12,6 +12,7 @@ class Tag
     //Hash Values
     void genHash(uint8_t *key);
     void genSubHash(uint8_t *key);
+    bool compareRHash(Tag interest);
 
     //Search Functionality
     bool operator==(const Tag &other);
@@ -41,7 +42,7 @@ class Tag
     uint8_t _attrHash[HASH_SIZE];
     uint8_t _valHash[HASH_SIZE];
     uint8_t _rHash[HASH_SIZE];
-    string r;
+    string _r = "";
     int _attrLen;
     int _valLen;
     bool _isPublisher = true;

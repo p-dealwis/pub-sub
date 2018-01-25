@@ -58,10 +58,13 @@ void matchInterests(vector<Tag> &pubArray, vector<Tag> &subArray)
     {
         for (i = 0; i < pubArray.size() ; i++)
         {
-            if (pubArray[i] == subArray[j])
-            {
-                subArray[j].matched();
-                break;
+            if (pubArray[i] == subArray[j]){
+                if(pubArray[i].compareRHash(subArray[j])){
+                    subArray[j].matched();
+                    break;
+                } else {
+                    cout << "WHY" << endl;
+                }
             }
         }
     }
@@ -72,7 +75,7 @@ void printArray(vector<Tag> &array)
 {
     for (int i = 0; i < array.size(); i++)
     {
-        array[i].print(true,true,false,false,false);
+        array[i].print(true,false,false,false,false);
     }
 }
 
