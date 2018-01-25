@@ -48,8 +48,8 @@ int main(int argc, char *argv[])
                 tests.push_back(trial);
             }
             vector<Timer> average = averageArray(tests);
-            cout << "Average time for tests: " << average[10].mseconds << "ms" << endl;
-            // cout << "Average time for tests without initialisation time: " << average[9].mseconds << "ms" << endl;
+            cout << "Average time for tests: " << average[11].mseconds << "ms" << endl;
+            cout << "Average time for tests without initialisation time: " << average[10].mseconds << "ms" << endl;
             results.push_back(Tests(average, testCases[testNum][i], j));
         }   
     }

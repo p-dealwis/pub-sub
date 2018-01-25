@@ -46,7 +46,7 @@ void Tag::genSubHash(uint8_t *key){
 bool Tag::compareRHash(Tag interest){
     uint8_t tempHash[HASH_SIZE];
     KeyedHash(_valHash, HASH_SIZE, (uint8_t *)interest._r.c_str(), HASH_SIZE, tempHash, HASH_SIZE);
-    KeyedHash(_valHash, HASH_SIZE, (uint8_t *)interest._r.c_str(), HASH_SIZE, _rHash, HASH_SIZE);
+    // KeyedHash(_valHash, HASH_SIZE, (uint8_t *)interest._r.c_str(), HASH_SIZE, _rHash, HASH_SIZE);
     return memcmp(tempHash, interest._rHash, HASH_SIZE) == 0;
 }
 

@@ -15,9 +15,9 @@ void addTime(string name, clock_t t, vector<Timer> &times){
 
 void totalTime(vector<Timer> &times, bool includeInit){
     if (includeInit){
-        times.push_back(Timer("Total Time",times.back().retTime(),0));
+        times.push_back(Timer("Total Time",times.back().retTime(),times.front().retTime()));
     } else {
-        times.push_back(Timer("Total Time without Init",times.back().retTime(),times.front().retTime()));
+        times.push_back(Timer("Total Time without Init",times.back().retTime(),times[2].retTime()));
     }
 }
 

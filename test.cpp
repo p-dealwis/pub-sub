@@ -20,6 +20,7 @@ using namespace std;
 vector<Timer> test(string text, int testSize)
 {
     vector<Timer> times = {};
+    addTime("Launch Time", clock(), times);
     // Initialise GCRYPT
     if (!gcry_check_version(GCRYPT_VERSION))
     {
