@@ -65,7 +65,7 @@ vector<Timer> test(string text, int testSize)
 
     //Subscriber Tree
     Gate AND1(Gate::Type::AND, 1, false, 2, false);
-    Gate OR1(Gate::Type::OR, &AND1, 0, true);
+    Gate OR1(Gate::Type::OR, &AND1, 0, false);
     Gate OR3(Gate::Type::OR, 3, false, 4, false);
     Gate OR4(Gate::Type::OR, &OR1, &OR3);
 
@@ -132,7 +132,7 @@ vector<Timer> test(string text, int testSize)
     addTime("Evaluation of tree by B3", clock(), times);
     
     //Decryption of payload
-    vector<int> testAttributes{1, 2, 4};
+    vector<int> testAttributes{0, 1, 2, 4};
     string result;
     try
     {
