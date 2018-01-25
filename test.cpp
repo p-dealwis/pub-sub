@@ -110,8 +110,8 @@ vector<Timer> test(string text, int testSize)
         cout << "Decryption Error" << endl;
     }
     addTime("Decryption of Payload by sub", clock(), times);
-    totalTime(times);
     totalTime(times, false);
+    totalTime(times);
     if (result == text) ;//cout << "Decrypted Successfully" << endl;
     else cout << "Unsuccessful Decryption" << endl;
     return times;

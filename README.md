@@ -1,9 +1,18 @@
 # PUB-SUB Summer Project
 
 ### To run:
+`./main.out <testCases No.> <Number of tests per run (default 100)> <output filename (default results.txt)>`
+
+Test Cases:
+1. 1KB -> 16MB
+2. 32MB -> 64MB
+3. 128MB
+4. 1KB -> 128MB
+
+### To complie:
 
 ```
-g++ -std=gnu++14 -o main.exe main.cpp Tag.cpp hash.cpp pub_sub.cpp Gate.cpp kpabe.cpp -I. -I/usr/local/include -I/usr/local/include/pbc `libgcrypt-config --libs` -lcrypto -lsodium -lpbc -lgmp -lmbedcrypto -lm
+g++ -std=gnu++14 -o main.out main.cpp test.cpp Timer.cpp Tag.cpp hash.cpp pub_sub.cpp Gate.cpp kpabe.cpp -I. -I/usr/local/include -I/usr/local/include/pbc `libgcrypt-config --libs` -lcrypto -lsodium -lpbc -lgmp -lmbedcrypto -lm
 ```
 
 ## Dev Libraries Used
