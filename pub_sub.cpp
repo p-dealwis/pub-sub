@@ -6,7 +6,6 @@ using namespace std;
 #include <fstream>
 #include <string>
 #include <sstream>
-#include <vector>
 
 #include "pub_sub.h"
 #include "Tag.h"
@@ -68,44 +67,6 @@ void matchInterests(vector<Tag> &pubArray, vector<Tag> &subArray)
     }
 }
 
-void genHashArray(uint8_t *key, vector<Tag> &array)
-{
-    for (int i = 0; i < array.size(); i++)
-    {
-        array[i].genHash(key);
-    }
-}
-
-void createTagArray(string fileName, int len, vector<Tag> &pubArray, vector<Tag> &subArray)
-{
-    vector<vector<string>> data;
-    ifstream infile(fileName);
-    while (infile)
-    {
-        string s;
-        if (!getline(infile, s))
-            break;
-
-        istringstream ss(s);
-        vector<string> record;
-
-        while (ss)
-        {
-            string s;
-            if (!getline(ss, s, ','))
-                break;
-            record.push_back(s);
-        }
-
-        data.push_back( record );
-    }
-
-    for (int i = 0; i < len; i++)
-    {
-        pubArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str()));
-        subArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str(),false,'='));
-    }
-}
 
 void printArray(vector<Tag> &array)
 {

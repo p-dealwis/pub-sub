@@ -11,6 +11,7 @@ class Tag
   public:
     //Hash Values
     void genHash(uint8_t *key);
+    void genSubHash(uint8_t *key);
 
     //Search Functionality
     bool operator==(const Tag &other);
@@ -39,6 +40,8 @@ class Tag
     char _val[INPUT_SIZE];
     uint8_t _attrHash[HASH_SIZE];
     uint8_t _valHash[HASH_SIZE];
+    uint8_t _rHash[HASH_SIZE];
+    string r;
     int _attrLen;
     int _valLen;
     bool _isPublisher = true;

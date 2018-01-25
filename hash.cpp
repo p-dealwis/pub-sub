@@ -7,25 +7,25 @@
 #define TRUE 1
 #define FALSE 0
 
-void uocrypt_error(gcry_error_t err)
-{
-    if (err)
-    {
-        fprintf(stderr, "Failure: %s/%s\n", gcry_strsource(err), gcry_strerror(err));
-        abort();
-    }
-}
+// void uocrypt_error(gcry_error_t err)
+// {
+//     if (err)
+//     {
+//         fprintf(stderr, "Failure: %s/%s\n", gcry_strsource(err), gcry_strerror(err));
+//         abort();
+//     }
+// }
 
 void KeyedHash(uint8_t *key, int keyLength, uint8_t *data, int dataLength, uint8_t *mac, int macLength)
 {
     gcry_md_hd_t hd;
-    gcry_error_t err = GPG_ERR_NO_ERROR;
+    // gcry_error_t err = GPG_ERR_NO_ERROR;
 
-    err = gcry_md_open(&hd, GCRY_MD_SHA256, GCRY_MD_FLAG_HMAC);
-    uocrypt_error(err);
+    gcry_md_open(&hd, GCRY_MD_SHA256, GCRY_MD_FLAG_HMAC);
+    // uocrypt_error(err);
 
-    err = gcry_md_setkey(hd, key, keyLength); //keyLength must be 32 bytes or less
-    uocrypt_error(err);
+    gcry_md_setkey(hd, key, keyLength); //keyLength must be 32 bytes or less
+    // uocrypt_error(err);
 
     gcry_md_write(hd, data, dataLength);
 

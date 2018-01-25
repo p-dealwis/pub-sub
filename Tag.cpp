@@ -4,6 +4,7 @@ using namespace std;
 
 #include "Tag.h"
 #include "hash.h"
+#include "test.hpp"
 
 // == Operator
 bool Tag::operator==(const Tag &other)
@@ -33,6 +34,12 @@ void Tag::genHash(uint8_t *key)
 {
     KeyedHash(key, HASH_SIZE, (uint8_t *)_attr, _attrLen, _attrHash, HASH_SIZE);
     KeyedHash(key, HASH_SIZE, (uint8_t *)_val, _valLen, _valHash, HASH_SIZE);
+}
+
+void Tag::genSubHash(uint8_t *key){
+    genHash(key);
+    r = randomString(HASH_SIZE);
+    KeyedHash(_valHash, HASH_SIZE, (uint8_t *)r.c_str(), HASH_SIZE, _rHash, HASH_SIZE);
 }
 
 /* ----------- CONTRUCTORS ----------- */

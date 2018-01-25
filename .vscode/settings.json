@@ -25,7 +25,11 @@
         "system_error": "cpp",
         "type_traits": "cpp",
         "typeinfo": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "array": "cpp",
+        "fstream": "cpp",
+        "slist": "cpp",
+        "*.ipp": "cpp"
     },
     "editor.detectIndentation": false
 }

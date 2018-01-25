@@ -6,6 +6,9 @@ using namespace std;
 #include <sodium.h>
 #include <iostream>
 #include <time.h>
+#include <fstream>
+#include <string>
+#include <sstream>
 
 #include "pbc.h"
 #include "Gate.h"
@@ -32,7 +35,33 @@ vector<Timer> test(string text, int testSize)
     vector<Tag> pubArray = {};
     vector<Tag> subArray = {};
     
-    createTagArray("data.txt", 10, pubArray, subArray);
+    vector<vector<string>> data;
+    ifstream infile("data.txt");
+    while (infile)
+    {
+        string s;
+        if (!getline(infile, s))
+            break;
+
+        istringstream ss(s);
+        vector<string> record;
+
+        while (ss)
+        {
+            string s;
+            if (!getline(ss, s, ','))
+                break;
+            record.push_back(s);
+        }
+
+        data.push_back( record );
+    }
+
+    for (int i = 0; i < testSize; i++)
+    {
+        pubArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str()));
+        subArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str(),false,'='));
+    }
 
     //Subscriber Tree
     Gate AND1(Gate::Type::AND, 1, false, 2, false);
@@ -63,7 +92,9 @@ vector<Timer> test(string text, int testSize)
     addTime("Encrypt of Payload by Pub", clock(), times);
 
     //Encryption of Interests
-    genHashArray(betaKey, subArray);
+    for (int i = 0; i < subArray.size(); i++){
+        subArray[i].genSubHash(betaKey);
+    }
     addTime("Encrypt Of Filter", clock(), times);
 
     //Generate r permutation and send to B2
@@ -78,7 +109,9 @@ vector<Timer> test(string text, int testSize)
     addTime("Permutation Time on Sub", clock(), times);
 
     //Encryption time of Tags
-    genHashArray(betaKey, pubArray);
+    for (int i = 0; i < pubArray.size(); i++){
+        pubArray[i].genHash(betaKey);
+    }
     addTime("Encrypt Of Tags", clock(), times);
 
     //Done by B1 - Search
