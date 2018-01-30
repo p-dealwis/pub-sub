@@ -53,13 +53,14 @@ bool Tag::compareRHash(Tag interest){
 /* ----------- CONTRUCTORS ----------- */
 
 //Tag and Interest Constructor
-Tag::Tag(const char *newAttr, const char *newVal, bool isPublisher, char opr)
+Tag::Tag(const char *newAttr, const char *newVal, bool realBool, bool isPublisher, char opr)
 {
     strcpy(_attr, newAttr);
     strcpy(_val, newVal);
     _attrLen = strlen(newAttr);
     _valLen = strlen(newVal);
     _isPublisher = isPublisher;
+    _real = realBool;
     _opr = opr;
 }
 

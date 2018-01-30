@@ -14,7 +14,7 @@ class Gate
     };
 
   public:
-    bool evaluate(vector<Tag> &subArray);
+    bool evaluate(vector<bool> &matches);
     void makeParent();
     void print(Tag *subArray);
     Gate(Type, int, bool, int, bool);

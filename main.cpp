@@ -17,7 +17,7 @@ vector<int> case3 = {MB*128};
 vector<int> allCases = {KB,MB, MB*2,MB*4,MB*8,MB*16,MB*32,MB*64,MB*128};
 vector<vector<int>> testCases = {case1,case2,case3,allCases};
 
-vector<int> extraTests = {128,160,192,228,256,288,320};
+vector<int> extraTests = {70, 80, 90, 100, 110, 116};
 
 int main(int argc, char *argv[])
 {

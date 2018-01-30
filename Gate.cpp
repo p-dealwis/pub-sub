@@ -5,14 +5,14 @@ using namespace std;
 
 #include "Gate.h"
 
-bool Gate::evaluate(vector<Tag> &subArray)
+bool Gate::evaluate(vector<bool> &matches)
 {
     bool l = false, r = false;
     if (_isLeftGate)
-        l = _leftGate->evaluate(subArray);
+        l = _leftGate->evaluate(matches);
     else
     {
-        l = subArray[_left].isMatch();
+        l = matches[_left];
         if (_leftNOT)
         {
             if (l)
@@ -22,10 +22,10 @@ bool Gate::evaluate(vector<Tag> &subArray)
         }
     }
     if (_isRightGate)
-        r = _rightGate->evaluate(subArray);
+        r = _rightGate->evaluate(matches);
     else
     {
-        r = subArray[_right].isMatch();
+        r = matches[_right];
         if (_rightNOT)
         {
             if (r)

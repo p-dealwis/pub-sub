@@ -59,21 +59,21 @@ vector<Timer> test(string text, int testSize)
     }
 
     
-    for (int i = 0; i < testSize; i++)
+    for (int i = 0; i < 20; i++)
     {
         pubArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str()));
     }
 
     if (testSize <= 20){
         for(int i = 0; i < testSize; i++){
-            subArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str(),false,'='));
+            subArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str(), true, false, '='));
         }
     } else {
         for(int i = 0; i < 20; i++){
-            subArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str(),false,'='));
+            subArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str(), true, false, '='));
         }
         for(int i = 20; i < testSize; i++){
-            subArray.push_back(Tag(randomString(10).c_str(),randomString(10).c_str(),false,'='));
+            subArray.push_back(Tag(randomString(10).c_str(),randomString(10).c_str(), false,false,'='));
         }
     }
 
@@ -119,7 +119,7 @@ vector<Timer> test(string text, int testSize)
     int r = randombytes_random();
 
     //From Sub to B1 - PRP
-    interestPermutation(r, subArray, false);
+    interestPermutation(r, subArray);
     addTime("Permutation Time on Sub", clock(), times);
 
     //Encryption time of Tags
@@ -129,17 +129,17 @@ vector<Timer> test(string text, int testSize)
     addTime("Encrypt Of Tags", clock(), times);
 
     //Done by B1 - Search
-    matchInterests(pubArray, subArray);
+    vector<bool> matches = matchInterests(pubArray, subArray);
     addTime("Search and  decryption time on B1", clock(), times);
 
     //Done by B2 - PRP Reverse
-    interestPermutation(r, subArray, true);
+    interestPermutationReverse(r, matches);
     addTime("PRP reverse B2", clock(), times);
 
     //Send to B3 - Structure
 
     //Done by B3 - Evaluation of Tree
-    int eval = OR4.evaluate(subArray);
+    int eval = OR4.evaluate(matches);
     if (eval == 1) ;//cout << "Evaluated" << endl;
     else cout << "Evaluation Failiure" << endl;
     

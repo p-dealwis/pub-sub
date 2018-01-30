@@ -9,6 +9,7 @@ using namespace std;
 
 #include "pub_sub.h"
 #include "Tag.h"
+#include "Gate.h"
 
 /*  Permutes an subscriber interest objects 
 *   @param seed - integer
@@ -17,57 +18,62 @@ using namespace std;
 *   @param inverse - get original order
 *   TESTED CONFIRMED WORKING
 */
-void interestPermutation(int seed, vector<Tag> &array, bool inverse)
+void interestPermutation(int seed, vector<Tag> &array)
 {
     int j;
     int len = array.size();
     if (len > 1)
     {
         int i;
-        if (inverse == true)
+        for (i = len - 1; i > 0; i--)
         {
-            for (i = len - 1; i > 0; i--)
+            j = seed % i;
+            if (j < 0)
             {
-                j = seed % i;
-                if (j < 0)
-                {
-                    j = 0 - j;
-                }
-                iter_swap(array.begin()+j, array.begin()+i);
+                j = 0 - j;
             }
-        }
-        else
-        {
-            for (i = 1; i < len; i++)
-            {
-                j = seed % i;
-                if (j < 0)
-                {
-                    j = 0 - j;
-                }
-                iter_swap(array.begin()+j, array.begin()+i);
-            }
+            iter_swap(array.begin()+j, array.begin()+i);
         }
     }
 }
 
-void matchInterests(vector<Tag> &pubArray, vector<Tag> &subArray)
+void interestPermutationReverse(int seed, vector<bool> &array)
+{
+    int j;
+    int len = array.size();
+    if (len > 1)
+    {
+        int i;
+        for (i = 1; i < len; i++)
+        {
+            j = seed % i;
+            if (j < 0)
+            {
+                j = 0 - j;
+            }
+            iter_swap(array.begin()+j, array.begin()+i);
+        }
+    }
+}
+
+vector<bool> matchInterests(vector<Tag> &pubArray, vector<Tag> &subArray)
 {
     int i, j;
+    vector<bool> matches(subArray.size(),false);
     for (j = 0; j < subArray.size(); j++)
     {
         for (i = 0; i < pubArray.size() ; i++)
         {
             if (pubArray[i] == subArray[j]){
                 if(pubArray[i].compareRHash(subArray[j])){
-                    subArray[j].matched();
+                    subArray[j].matched();  //Remove this later
+                    matches[j] = true;
                     break;
-                } else {
-                    cout << "WHY" << endl;
                 }
             }
         }
     }
+    return matches;
 }
 
 
@@ -96,4 +102,9 @@ void saveResults(string filename, vector<Tests> results){
         }
         ofs << endl;
     }
+}
+
+
+Gate generateTree(vector<Tag> &subArray){
+
 }

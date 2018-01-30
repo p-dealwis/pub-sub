@@ -20,7 +20,7 @@ class Tag
     bool isMatch();
 
     //Constructor Methods
-    Tag(const char *, const char *, bool = true, char = '=');
+    Tag(const char *, const char *, bool = true, bool = true, char = '=');
     Tag();
     //Deconstructor
     ~Tag();
@@ -48,6 +48,7 @@ class Tag
     bool _isPublisher = true;
     char _opr;
     bool _match = false;
+    bool _real;
 
     //Tag encryption
 };
