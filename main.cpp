@@ -17,6 +17,8 @@ vector<int> case3 = {MB*128};
 vector<int> allCases = {KB,MB, MB*2,MB*4,MB*8,MB*16,MB*32,MB*64,MB*128};
 vector<vector<int>> testCases = {case1,case2,case3,allCases};
 
+vector<int> extraTests = {128,160,192,228,256,288,320};
+
 int main(int argc, char *argv[])
 {
     int NUM_TESTS = 100;
@@ -51,7 +53,22 @@ int main(int argc, char *argv[])
             cout << "Average time for tests: " << average[11].mseconds << "ms" << endl;
             cout << "Average time for tests without initialisation time: " << average[10].mseconds << "ms" << endl;
             results.push_back(Tests(average, testCases[testNum][i], j));
-        }   
+        }
+        int j;
+        for( int l = 0; l < extraTests.size(); l++){
+            j = extraTests[l];
+            cout << "Tags: " << j << endl;
+            vector<vector<Timer>> tests = {};
+            for(int k = 0; k < NUM_TESTS; k++){
+                vector<Timer> trial = test(randomString(testCases[testNum][i]), j);
+                tests.push_back(trial);
+            }
+            vector<Timer> average = averageArray(tests);
+            cout << "Average time for tests: " << average[11].mseconds << "ms" << endl;
+            cout << "Average time for tests without initialisation time: " << average[10].mseconds << "ms" << endl;
+            results.push_back(Tests(average, testCases[testNum][i], j));
+        }
+
     }
     saveResults(filename, results);
     cout << "DONE" << endl;

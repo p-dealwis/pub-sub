@@ -58,10 +58,23 @@ vector<Timer> test(string text, int testSize)
         data.push_back( record );
     }
 
+    
     for (int i = 0; i < testSize; i++)
     {
         pubArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str()));
-        subArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str(),false,'='));
+    }
+
+    if (testSize <= 20){
+        for(int i = 0; i < testSize; i++){
+            subArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str(),false,'='));
+        }
+    } else {
+        for(int i = 0; i < 20; i++){
+            subArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str(),false,'='));
+        }
+        for(int i = 20; i < testSize; i++){
+            subArray.push_back(Tag(randomString(10).c_str(),randomString(10).c_str(),false,'='));
+        }
     }
 
     //Subscriber Tree
