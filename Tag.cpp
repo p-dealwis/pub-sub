@@ -20,6 +20,11 @@ void Tag::matched()
     _match = true;
 }
 
+bool Tag::isReal()
+{
+    return _real;
+}
+
 bool Tag::isMatch()
 {
     return _match;

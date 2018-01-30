@@ -20,6 +20,7 @@ class Gate
     Gate(Type, int, bool, int, bool);
     Gate(Type, Gate *, int, bool);
     Gate(Type, Gate *, Gate *);
+    Gate(int, bool = false);
     Node createABETree();
 
   private:
@@ -27,6 +28,7 @@ class Gate
     bool _isLeftGate = true;
     bool _isRightGate = true;
     bool _parent = false;
+    bool _valueOnly = false;
     Type _gateType;
     Gate *_leftGate;
     Gate *_rightGate;

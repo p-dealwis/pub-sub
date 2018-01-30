@@ -18,6 +18,7 @@ class Tag
     bool operator==(const Tag &other);
     void matched();
     bool isMatch();
+    bool isReal();
 
     //Constructor Methods
     Tag(const char *, const char *, bool = true, bool = true, char = '=');

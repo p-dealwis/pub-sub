@@ -106,5 +106,20 @@ void saveResults(string filename, vector<Tests> results){
 
 
 Gate generateTree(vector<Tag> &subArray){
-
+    vector<Gate> gates;
+    //Initialise make gates from subArray
+    for(int i = 0; i < subArray.size() - subArray.size()/2; i++){
+        cout << i << endl;
+        //First = i * 2 Second = i * 2 + 1
+        if((subArray.size()%2 != 0 && i*2 >= subArray.size()) || subArray.size() == 1){
+            gates.push_back(Gate(i*2));
+        } else if(subArray[i * 2].isReal() && subArray[i * 2 + 1].isReal()){
+            gates.push_back(Gate(Gate::Type::AND,i*2,false,i*2+1,false));
+        } else if(subArray[i * 2].isReal() || subArray[i * 2 + 1].isReal()){
+            gates.push_back(Gate(Gate::Type::OR,i*2,false,i*2+1,true));
+        } else {
+        gates.push_back(Gate(Gate::Type::OR,i*2,true,i*2+1,false));
+        }
+    }
+    cout << "DONE" << endl;
 }

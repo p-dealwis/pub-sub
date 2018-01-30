@@ -76,7 +76,7 @@ vector<Timer> test(string text, int testSize)
             subArray.push_back(Tag(randomString(10).c_str(),randomString(10).c_str(), false,false,'='));
         }
     }
-
+    generateTree(subArray);
     //Subscriber Tree
     Gate AND1(Gate::Type::AND, 1, false, 2, false);
     Gate OR1(Gate::Type::OR, &AND1, 0, false);

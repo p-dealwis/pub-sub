@@ -85,6 +85,12 @@ Gate::Gate(Type type, Gate *leftGate, Gate *rightGate)
     _rightGate = rightGate;
 };
 
+Gate::Gate(int value, bool NOT){
+    _left = value;
+    _leftNOT = NOT;
+    _valueOnly = true;
+}
+
 /* ----------- DEBUG FUNCTIONS ----------- */
 
 void Gate::print(Tag *subArray)
