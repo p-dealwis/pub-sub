@@ -76,7 +76,8 @@ vector<Timer> test(string text, int testSize)
             subArray.push_back(Tag(randomString(10).c_str(),randomString(10).c_str(), false,false,'='));
         }
     }
-    generateTree(subArray);
+    vector<Gate> gates;
+    Gate theRoot = generateTree(subArray,gates);
     //Subscriber Tree
     Gate AND1(Gate::Type::AND, 1, false, 2, false);
     Gate OR1(Gate::Type::OR, &AND1, 0, false);
@@ -94,7 +95,7 @@ vector<Timer> test(string text, int testSize)
     Node root = OR4.createABETree();
     auto key = keyGeneration(priv, root);
 
-    addTime("Init", clock(), times);
+    addTime("Init    int l, r;", clock(), times);
 
     // Create an attribute-based secret (attributes 1 and 3).
     element_s secret;
@@ -139,7 +140,7 @@ vector<Timer> test(string text, int testSize)
     //Send to B3 - Structure
 
     //Done by B3 - Evaluation of Tree
-    int eval = OR4.evaluate(matches);
+    int eval = theRoot.evaluate(matches);
     if (eval == 1) ;//cout << "Evaluated" << endl;
     else cout << "Evaluation Failiure" << endl;
     

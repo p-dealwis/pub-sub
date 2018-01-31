@@ -7,7 +7,19 @@ using namespace std;
 
 bool Gate::evaluate(vector<bool> &matches)
 {
+    this;
     bool l = false, r = false;
+    if(_valueOnly){
+        l = matches[_left];
+        if (_leftNOT)
+        {
+            if (l)
+                l = false;
+            else
+                l = true;
+        }
+        return l;
+    }
     if (_isLeftGate)
         l = _leftGate->evaluate(matches);
     else
@@ -81,14 +93,59 @@ Gate::Gate(Type type, Gate *gate, int num, bool interestNOT)
 Gate::Gate(Type type, Gate *leftGate, Gate *rightGate)
 {
     _gateType = type;
-    _leftGate = leftGate;
-    _rightGate = rightGate;
+    if(rightGate->_valueOnly){
+        _isRightGate = false;
+        _right = rightGate->_left;
+    } else {
+        _rightGate = rightGate;
+    }
+    if(leftGate->_valueOnly){
+        _isLeftGate = false;
+        _left = leftGate->_left;
+    } else {
+        _leftGate = leftGate;
+    }
+    
 };
 
 Gate::Gate(int value, bool NOT){
     _left = value;
     _leftNOT = NOT;
     _valueOnly = true;
+    _isLeftGate = false;
+    _isRightGate = false;
+}
+
+//Copy Constructor
+Gate::Gate(const Gate &other){
+    _isLeftGate = other._isLeftGate;
+    _isRightGate = other._isRightGate;
+    _parent = other._parent;
+    _valueOnly = other._valueOnly;
+    _gateType = other._gateType;
+    _leftGate = other._leftGate;
+    _rightGate = other._rightGate;
+
+    _left = other._left;
+    _right = other._right;
+    _leftNOT = other._leftNOT;
+    _rightNOT = other._rightNOT;
+}
+
+//Copy Assignment
+Gate &Gate::operator=(const Gate &other){
+    _isLeftGate = other._isLeftGate;
+    _isRightGate = other._isRightGate;
+    _parent = other._parent;
+    _valueOnly = other._valueOnly;
+    _gateType = other._gateType;
+    _leftGate = other._leftGate;
+    _rightGate = other._rightGate;
+
+    _left = other._left;
+    _right = other._right;
+    _leftNOT = other._leftNOT;
+    _rightNOT = other._rightNOT;
 }
 
 /* ----------- DEBUG FUNCTIONS ----------- */
@@ -123,13 +180,16 @@ void Gate::print(Tag *subArray)
 
 Node Gate::createABETree()
 {
-    int l, r;
     Node::Type type = _gateType == Type::AND ? Node::Type::AND : Node::Type::OR;
-    if (_isRightGate)
+    if (_isRightGate && _isLeftGate)
     {
         return Node(type, {_leftGate->createABETree(), _rightGate->createABETree()});
     }
-    else if (_isLeftGate)
+    else if (_isRightGate && !_isLeftGate)
+    {
+        return Node(type, {Node(_left), _rightGate->createABETree()});
+    } 
+    else if (!_isRightGate && _isLeftGate)
     {
         return Node(type, {_leftGate->createABETree(), Node(_right)});
     }

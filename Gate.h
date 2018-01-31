@@ -21,23 +21,24 @@ class Gate
     Gate(Type, Gate *, int, bool);
     Gate(Type, Gate *, Gate *);
     Gate(int, bool = false);
+    Gate(const Gate &other);
+    Gate &operator=(const Gate &other);
     Node createABETree();
 
   private:
-    bool _gateValue;
     bool _isLeftGate = true;
     bool _isRightGate = true;
     bool _parent = false;
     bool _valueOnly = false;
-    Type _gateType;
-    Gate *_leftGate;
-    Gate *_rightGate;
+    Type _gateType = Gate::Type::OR;
+    Gate *_leftGate = 0;
+    Gate *_rightGate = 0;
 
     //Interest Info
-    int _left;
-    int _right;
-    bool _leftNOT;
-    bool _rightNOT;
+    int _left = -1;
+    int _right = -1;
+    bool _leftNOT = false;
+    bool _rightNOT = false;
 };
 
 #endif

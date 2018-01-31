@@ -51,7 +51,6 @@ class Tag
     bool _match = false;
     bool _real;
 
-    //Tag encryption
 };
 
 #endif

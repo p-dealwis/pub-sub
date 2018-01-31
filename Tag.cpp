@@ -96,6 +96,7 @@ Tag::Tag(const Tag &other)
     _opr = other._opr;
     _match = other._match;
     _r = other._r;
+    _real = other._real;
 }
 
 //Copy Assignment
@@ -126,6 +127,7 @@ Tag &Tag::operator=(const Tag &other)
     _opr = other._opr;
     _match = other._match;
     _r = other._r;
+    _real = other._real;
 }
 
 //Move Contructor
@@ -156,11 +158,13 @@ Tag::Tag(Tag &&other)
     _opr = other._opr;
     _match = other._match;
     _r = other._r;
+    _real = other._real;
     
     other._isPublisher = 0;
     other._opr = 0;
     other._match = 0;
     other._r = "";
+    other._real = 0;
 }
 
 //Move Assignment
@@ -198,11 +202,13 @@ Tag &Tag::operator=(Tag &&other)
     _opr = other._opr;
     _match = other._match;
     _r = other._r;
-
+    _real = other._real;
+    
     other._isPublisher = 0;
     other._opr = 0;
     other._match = 0;
     other._r = "";
+    other._real = 0;
 }
 
 /* ----------- DEBUG FUNCTIONS ----------- */

@@ -105,8 +105,7 @@ void saveResults(string filename, vector<Tests> results){
 }
 
 
-Gate generateTree(vector<Tag> &subArray){
-    vector<Gate> gates;
+Gate generateTree(vector<Tag> &subArray, vector<Gate> &gates){
     //Initialise make gates from subArray
     for(int i = 0; i < subArray.size() - subArray.size()/2; i++){
         cout << i << endl;
@@ -123,5 +122,17 @@ Gate generateTree(vector<Tag> &subArray){
     }
     cout << endl;
     //TODO: Recursively make tree from array of gates
+    return generateRoot(gates);
 }
 
+Gate generateRoot(vector<Gate> &gateArray, int pos){
+    int initialSize = gateArray.size();
+    if (initialSize - pos <= 1){
+        return gateArray.back();
+    }
+    for(int i = pos; i < initialSize - initialSize%2; i = i + 2){
+        gateArray.push_back(Gate(Gate::Type::OR, &gateArray[i], &gateArray[i+1]));
+    };
+    cout << pos + initialSize - initialSize%2 << endl;
+    return generateRoot(gateArray, pos + initialSize - initialSize%2);
+}

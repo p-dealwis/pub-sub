@@ -11,6 +11,7 @@ void interestPermutationReverse(int seed, vector<bool> &array);
 vector<bool>  matchInterests(vector<Tag> &pubArray, vector<Tag> &subArray);
 void printArray(vector<Tag> &array);
 void saveResults(string filename, vector<Tests> results);
-Gate generateTree(vector<Tag> &subArray);
+Gate generateTree(vector<Tag> &subArray, vector<Gate> &gates);
+Gate generateRoot(vector<Gate> &gateArray, int  = 0);
 
 #endif
