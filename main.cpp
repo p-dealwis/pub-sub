@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
     cout << "    -------------------------------"<<  endl;
     vector<Tests> results = {};
     for (int i = 0; i < testCases[testNum].size(); i++){
+        cout << "    -------------------------------"<<  endl;
         cout << "Started calculating for message encryption size: " << testCases[testNum][i]/1024 << "KB" << endl;
         for (int j = 1; j <= 20; j++){
             cout << "Tags: " << j << endl;

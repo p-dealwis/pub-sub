@@ -1,8 +1,8 @@
 #include <gcrypt.h>
+#include <iostream>
 
 #include "hash.h"
-// #include "miracl.h"
-
+#include "miracl.h"
 #define KEY_SIZE 16
 #define SHA256_DIGEST_LENGTH 32
 #define TRUE 1
@@ -48,7 +48,6 @@ void KeyedHash(uint8_t *key, int keyLength, uint8_t *data, int dataLength, uint8
 //         shs256_process(&md, data[i]);
 
 //     shs256_hash(&md, (char*)mac);
-//     mac[SHA256_DIGEST_LENGTH]=0;
 // }
 
 int permutation(int seed, bool *array, int len)

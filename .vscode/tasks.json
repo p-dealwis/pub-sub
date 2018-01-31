@@ -4,26 +4,15 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Compile Main",
-            "type": "shell",
-            "command": "g++ -std=c++11 -o main.out main.cpp Tag.cpp hash.cpp pub_sub.cpp `libgcrypt-config --libs`",
-            "args": [
-                "-lssl",
-                "-lcrypto",
-                "-lsodium"
-            ],
-            "problemMatcher": []
-        },
-        {
             "label": "Quickstart",
             "type": "shell",
-            "command": "g++ -std=gnu++14 -o main.out main.cpp test.cpp Timer.cpp Tag.cpp hash.cpp pub_sub.cpp Gate.cpp kpabe.cpp -I. -I/usr/local/include -I/usr/local/include/pbc `libgcrypt-config --libs` -lcrypto -lsodium -lpbc -lgmp -lmbedcrypto -lm",
+            "command": "g++ -std=gnu++14 -o main.out main.cpp test.cpp Timer.cpp Tag.cpp hash.cpp pub_sub.cpp Gate.cpp kpabe.cpp -I. -I/usr/local/include -I/usr/local/include/pbc -I/usr/local/include/miracl/  `libgcrypt-config --libs` -lcrypto -lsodium -lpbc -lgmp -lmbedcrypto -lm -lmiracl",
             "problemMatcher": []
         },
         {
             "label": "debug",
             "type": "shell",
-            "command": "g++ -std=gnu++14 -g -o main.out main.cpp test.cpp Timer.cpp Tag.cpp hash.cpp pub_sub.cpp Gate.cpp kpabe.cpp -I. -I/usr/local/include -I/usr/local/include/pbc `libgcrypt-config --libs` -lcrypto -lsodium -lpbc -lgmp -lmbedcrypto -lm",
+            "command": "g++ -std=gnu++14 -g -o main.out main.cpp test.cpp Timer.cpp Tag.cpp hash.cpp pub_sub.cpp Gate.cpp kpabe.cpp -I. -I/usr/local/include -I/usr/local/include/pbc -I/usr/local/include/miracl/  `libgcrypt-config --libs` -lcrypto -lsodium -lpbc -lgmp -lmbedcrypto -lm -lmiracl",
             "problemMatcher": []
         }
     ]
