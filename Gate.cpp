@@ -181,20 +181,24 @@ void Gate::print(Tag *subArray)
 Node Gate::createABETree()
 {
     Node::Type type = _gateType == Type::AND ? Node::Type::AND : Node::Type::OR;
-    if (_isRightGate && _isLeftGate)
+    if (_isLeftGate && _isRightGate)
     {
         return Node(type, {_leftGate->createABETree(), _rightGate->createABETree()});
     }
-    else if (_isRightGate && !_isLeftGate)
+    else if (!_isLeftGate && _isRightGate)
     {
         return Node(type, {Node(_left), _rightGate->createABETree()});
     } 
-    else if (!_isRightGate && _isLeftGate)
+    else if (_isLeftGate && !_isRightGate)
     {
         return Node(type, {_leftGate->createABETree(), Node(_right)});
     }
     else
     {
-        return Node(type, {Node(_left), Node(_right)});
+        if(_right = -1){
+             return Node(_left);   
+        } else{
+            return Node(type, {Node(_left), Node(_right)});
+        }
     }
 }

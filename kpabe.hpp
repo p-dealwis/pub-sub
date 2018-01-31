@@ -59,6 +59,7 @@ class Node
     Node(Node &&other);
     Node(int attr);
     Node(Type type, const std::vector<Node> &children = {});
+    Node(){};
 
     Node &operator=(const Node &other);
     Node &operator=(Node &&other);

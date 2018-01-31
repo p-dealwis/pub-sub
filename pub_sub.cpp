@@ -66,7 +66,6 @@ vector<bool> matchInterests(vector<Tag> &pubArray, vector<Tag> &subArray)
         {
             if (pubArray[i] == subArray[j]){
                 if(pubArray[i].compareRHash(subArray[j])){
-                    subArray[j].matched();  //Remove this later
                     matches[j] = true;
                     break;
                 }
@@ -105,34 +104,33 @@ void saveResults(string filename, vector<Tests> results){
 }
 
 
-Gate generateTree(vector<Tag> &subArray, vector<Gate> &gates){
+Gate* generateTree(vector<Tag> &subArray, vector<Gate*> &gates){
     //Initialise make gates from subArray
     for(int i = 0; i < subArray.size() - subArray.size()/2; i++){
-        cout << i << endl;
         //First = i * 2 Second = i * 2 + 1
         if(subArray.size()%2 != 0 && i*2 + 1 >= subArray.size()){
-            gates.push_back(Gate(i*2));
+            gates.push_back(new Gate(i*2));
         } else if(subArray[i * 2].isReal() && subArray[i * 2 + 1].isReal()){
-            gates.push_back(Gate(Gate::Type::AND,i*2,false,i*2+1,false));
+            gates.push_back(new Gate(Gate::Type::AND,i*2,false,i*2+1,false));
         } else if(subArray[i * 2].isReal() || subArray[i * 2 + 1].isReal()){
-            gates.push_back(Gate(Gate::Type::OR,i*2,false,i*2+1,true));
+            gates.push_back(new Gate(Gate::Type::OR,i*2,false,i*2+1,true));
         } else {
-        gates.push_back(Gate(Gate::Type::OR,i*2,true,i*2+1,false));
+        gates.push_back(new Gate(Gate::Type::OR,i*2,true,i*2+1,false));
         }
     }
-    cout << endl;
     //TODO: Recursively make tree from array of gates
     return generateRoot(gates);
 }
 
-Gate generateRoot(vector<Gate> &gateArray, int pos){
+Gate* generateRoot(vector<Gate*> &gateArray, int pos){
     int initialSize = gateArray.size();
     if (initialSize - pos <= 1){
         return gateArray.back();
     }
     for(int i = pos; i < initialSize - initialSize%2; i = i + 2){
-        gateArray.push_back(Gate(Gate::Type::OR, &gateArray[i], &gateArray[i+1]));
+        gateArray.push_back(new Gate(Gate::Type::OR, gateArray[i], gateArray[i+1]));
     };
-    cout << pos + initialSize - initialSize%2 << endl;
     return generateRoot(gateArray, pos + initialSize - initialSize%2);
 }
+
+
