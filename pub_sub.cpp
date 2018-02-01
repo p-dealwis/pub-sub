@@ -95,7 +95,7 @@ void saveResults(string filename, vector<Tests> results){
 
     //Write Data
     for(int j = 0; j < results.size(); j++){
-        ofs << results[j].dataSize/1000 << "," << results[j].tagSize << ",";
+        ofs << results[j].dataSize/1024 << "," << results[j].tagSize << ",";
         for (int k = 0; k < results[k].Timers.size(); k++){
             ofs << results[j].Timers[k].mseconds << ",";
         }
