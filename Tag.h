@@ -1,6 +1,8 @@
 #ifndef TAG_H
 #define TAG_H
 
+using namespace std;
+
 #include <stdint.h>
 
 #define INPUT_SIZE 20
@@ -13,6 +15,8 @@ class Tag
     void genHash(uint8_t *key);
     void genSubHash(uint8_t *key);
     bool compareRHash(Tag interest);
+    uint8_t getAttrHash(int);
+    uint8_t getValHash(int);
 
     //Search Functionality
     bool operator==(const Tag &other);

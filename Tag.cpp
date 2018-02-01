@@ -6,6 +6,16 @@ using namespace std;
 #include "hash.h"
 #include "test.hpp"
 
+//Message Functions
+uint8_t Tag::getAttrHash(int i) {
+    return _attrHash[i];
+}
+
+uint8_t Tag::getValHash(int i) {
+    return _valHash[i];
+}
+
+
 // == Operator
 bool Tag::operator==(const Tag &other)
 {
