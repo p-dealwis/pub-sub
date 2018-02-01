@@ -1,0 +1,3 @@
+paitient_id,first_name,middle_name,last_name,age,dob,occupation,height,weight,blood_type,sex,suburb,city,mobile,hospital_id,status,email,date_created,doctor_name,birth_country
+13216541,Pramodya,Dilan,De Alwis,22,15/06/95,student,182,73,A+,Male,Mt Roskill,Auckland,212381984,1231515,Alive,pramodya1@hotmail.com,15/01/18,Dr. Chee,Sri Lanka
+13216541,Rhea,,Babbar,23,02/01/95,tester,165,62,A+,Female,Epsom,Auckland,2108120867,1231515,Alive,rhea1412@gmail.com,15/01/18,Dr. Chee,India

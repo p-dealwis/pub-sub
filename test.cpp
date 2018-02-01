@@ -59,23 +59,23 @@ vector<Timer> test(string text, int testSize)
     }
 
     
-    for (int i = 0; i < 20; i++)
+    for (int i = 0; i < testSize; i++)
     {
         pubArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str()));
     }
 
-    if (testSize <= 20){
-        for(int i = 0; i < testSize; i++){
-            subArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str(), true, false, '='));
-        }
-    } else {
-        for(int i = 0; i < 20; i++){
-            subArray.push_back(Tag(data[0][i].c_str(),data[1][i].c_str(), true, false, '='));
-        }
-        for(int i = 20; i < testSize; i++){
-            subArray.push_back(Tag(randomString(10).c_str(),randomString(10).c_str(), false,false,'='));
-        }
+    for(int i = 0; i < testSize; i++){
+        subArray.push_back(Tag(data[0][i].c_str(),data[2][i].c_str(), true, false, '='));
     }
+    // if (testSize <= 20){
+    // } else {
+    //     for(int i = 0; i < 20; i++){
+    //         subArray.push_back(Tag(data[1][i].c_str(),data[1][i].c_str(), true, false, '='));
+    //     }
+    //     for(int i = 20; i < testSize; i++){
+    //         subArray.push_back(Tag(randomString(10).c_str(),randomString(10).c_str(), false,false,'='));
+    //     }
+    // }
     vector<Gate*> gates;
     generateTree(subArray,gates);
     Gate* theRoot = gates.back();
