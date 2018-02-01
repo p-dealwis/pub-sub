@@ -101,6 +101,7 @@ void saveResults(string filename, vector<Tests> results){
         }
         ofs << endl;
     }
+    ofs.close();
 }
 
 
