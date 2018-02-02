@@ -19,6 +19,7 @@ public:
 };
 
 vector<Timer> test(string text, int testSize);
+vector<Timer> singleBrokerTest(string text, int testSize);
 string randomString(int len);
 
 #endif

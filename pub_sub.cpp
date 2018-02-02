@@ -75,6 +75,22 @@ vector<bool> matchInterests(vector<Tag> &pubArray, vector<Tag> &subArray)
     return matches;
 }
 
+vector<bool> matchInterestsSingleBroker(vector<Tag> &pubArray, vector<Tag> &subArray)
+{
+    int i, j;
+    vector<bool> matches(subArray.size(),false);
+    for (j = 0; j < subArray.size(); j++)
+    {
+        for (i = 0; i < pubArray.size() ; i++)
+        {
+            if(pubArray[i].compareRHash(subArray[j])){
+                matches[j] = true;
+                break;
+            }
+        }
+    }
+    return matches;
+}
 
 void printArray(vector<Tag> &array)
 {
