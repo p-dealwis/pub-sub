@@ -67,15 +67,7 @@ vector<Timer> test(string text, int testSize)
     for(int i = 0; i < testSize; i++){
         subArray.push_back(Tag(data[0][i].c_str(),data[2][i].c_str(), true, false, '='));
     }
-    // if (testSize <= 20){
-    // } else {
-    //     for(int i = 0; i < 20; i++){
-    //         subArray.push_back(Tag(data[1][i].c_str(),data[1][i].c_str(), true, false, '='));
-    //     }
-    //     for(int i = 20; i < testSize; i++){
-    //         subArray.push_back(Tag(randomString(10).c_str(),randomString(10).c_str(), false,false,'='));
-    //     }
-    // }
+
     vector<Gate*> gates;
     generateTree(subArray,gates);
     Gate* theRoot = gates.back();
@@ -222,33 +214,33 @@ vector<Timer> singleBrokerTest(string text, int testSize)
     generateTree(subArray,gates);
     Gate* theRoot = gates.back();
     //Subscriber Tree
-    Gate AND1(Gate::Type::AND, 1, false, 2, false);
-    Gate OR1(Gate::Type::OR, &AND1, 0, false);
-    Gate OR3(Gate::Type::OR, 3, false, 4, false);
-    Gate OR4(Gate::Type::OR, &OR1, &OR3);
+    // Gate AND1(Gate::Type::AND, 1, false, 2, false);
+    // Gate OR1(Gate::Type::OR, &AND1, 0, false);
+    // Gate OR3(Gate::Type::OR, 3, false, 4, false);
+    // Gate OR4(Gate::Type::OR, &OR1, &OR3);
 
-    OR4.makeParent();
+    // OR4.makeParent();
 
-    //KP-ABE
-    PrivateParams priv;
-    PublicParams pub;
-    setup(attributeUniverse, pub, priv);
+    // //KP-ABE
+    // PrivateParams priv;
+    // PublicParams pub;
+    // setup(attributeUniverse, pub, priv);
 
-    //Make access policy from subscriber tree and generate key
-    Node* root = new Node;
-    *root = OR4.createABETree();
-    auto key = keyGeneration(priv, *root);
+    // //Make access policy from subscriber tree and generate key
+    // Node* root = new Node;
+    // *root = OR4.createABETree();
+    // auto key = keyGeneration(priv, *root);
 
     addTime("Init ", clock(), times);
 
     // Create an attribute-based secret (attributes 1 and 3).
-    element_s secret;
-    vector<int> encryptionAttributes{0, 1, 2, 3, 4};
-    auto Cw = createSecret(pub, encryptionAttributes, secret);
+    // element_s secret;
+    // vector<int> encryptionAttributes{0, 1, 2, 3, 4};
+    // auto Cw = createSecret(pub, encryptionAttributes, secret);
 
     //Encrypt the message
-    std::vector<uint8_t> ciphertext = encrypt(pub, encryptionAttributes, text, Cw);
-    addTime("Encrypt of Payload by Pub", clock(), times);
+    // std::vector<uint8_t> ciphertext = encrypt(pub, encryptionAttributes, text, Cw);
+    // addTime("Encrypt of Payload by Pub", clock(), times);
 
     //Encryption of Interests
     for (int i = 0; i < subArray.size(); i++){
@@ -275,21 +267,21 @@ vector<Timer> singleBrokerTest(string text, int testSize)
     addTime("Evaluation of tree by B3", clock(), times);
     
     //Decryption of payload
-    vector<int> testAttributes{0, 1, 2, 4};
-    string result;
-    try
-    {
-        result = decrypt(key, Cw, testAttributes, ciphertext);
-    }
-    catch (const UnsatError &e)
-    {
-        cout << "Decryption Error" << endl;
-    }
-    addTime("Decryption of Payload by sub", clock(), times);
-    totalTime(times, false);
-    totalTime(times);
-    if (result == text) ;//cout << "Decrypted Successfully" << endl;
-    else cout << "Unsuccessful Decryption" << endl;
+    // vector<int> testAttributes{0, 1, 2, 4};
+    // string result;
+    // try
+    // {
+    //     result = decrypt(key, Cw, testAttributes, ciphertext);
+    // }
+    // catch (const UnsatError &e)
+    // {
+    //     cout << "Decryption Error" << endl;
+    // }
+    // addTime("Decryption of Payload by sub", clock(), times);
+    // totalTime(times, false);
+    // totalTime(times);
+    // if (result == text) ;//cout << "Decrypted Successfully" << endl;
+    // else cout << "Unsuccessful Decryption" << endl;
     return times;
 }
 
