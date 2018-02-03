@@ -147,7 +147,7 @@ Gate* generateRoot(vector<Gate*> &gateArray, int pos){
     for(int i = pos; i < initialSize - initialSize%2; i = i + 2){
         gateArray.push_back(new Gate(Gate::Type::OR, gateArray[i], gateArray[i+1]));
     };
-    return generateRoot(gateArray, pos + initialSize - initialSize%2);
+    return generateRoot(gateArray, initialSize - initialSize%2);
 }
 
 

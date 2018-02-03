@@ -150,7 +150,7 @@ Gate &Gate::operator=(const Gate &other){
 
 /* ----------- DEBUG FUNCTIONS ----------- */
 
-void Gate::print(Tag *subArray)
+void Gate::print(vector<Tag> &subArray)
 {
     string type;
     if (_gateType == Type::AND)
@@ -195,7 +195,7 @@ Node Gate::createABETree()
     }
     else
     {
-        if(_right = -1){
+        if(_right == -1){
              return Node(_left);   
         } else{
             return Node(type, {Node(_left), Node(_right)});

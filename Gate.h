@@ -16,12 +16,13 @@ class Gate
   public:
     bool evaluate(vector<bool> &matches);
     void makeParent();
-    void print(Tag *subArray);
+    void print(vector<Tag> &subArray);
     Gate(Type, int, bool, int, bool);
     Gate(Type, Gate *, int, bool);
     Gate(Type, Gate *, Gate *);
     Gate(int, bool = false);
     Gate(const Gate &other);
+    Gate(){};
     Gate &operator=(const Gate &other);
     Node createABETree();
 
