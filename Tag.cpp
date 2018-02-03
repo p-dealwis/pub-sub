@@ -89,8 +89,9 @@ Tag::Tag(const char *newAttr, const char *newVal, bool realBool, bool isPublishe
 Tag::Tag(uint8_t *attrHash, uint8_t *valHash, bool isPublisher, uint8_t *rHash, string r)
 {
     memcpy(_attrHash, attrHash,HASH_SIZE);
-    memcpy(_valHash, valHash,HASH_SIZE);
-    if(!isPublisher){
+    if(isPublisher){
+        memcpy(_valHash, valHash,HASH_SIZE);
+    } else {
         memcpy(_rHash, rHash,HASH_SIZE);
         _r = r;
     }
