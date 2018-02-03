@@ -17,6 +17,8 @@ class Tag
     bool compareRHash(Tag interest);
     uint8_t getAttrHash(int);
     uint8_t getValHash(int);
+    uint8_t getRHash(int);
+    string getR();
 
     //Search Functionality
     bool operator==(const Tag &other);
@@ -26,6 +28,7 @@ class Tag
 
     //Constructor Methods
     Tag(const char *, const char *, bool = true, bool = true, char = '=');
+    Tag(uint8_t *, uint8_t *, bool = true,  uint8_t * = {}, string = "");
     Tag();
     //Deconstructor
     ~Tag();

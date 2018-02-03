@@ -15,6 +15,13 @@ uint8_t Tag::getValHash(int i) {
     return _valHash[i];
 }
 
+uint8_t Tag::getRHash(int i) {
+    return _rHash[i];
+}
+
+string Tag::getR() {
+    return _r;
+}
 
 // == Operator
 bool Tag::operator==(const Tag &other)
@@ -78,6 +85,18 @@ Tag::Tag(const char *newAttr, const char *newVal, bool realBool, bool isPublishe
     _real = realBool;
     _opr = opr;
 }
+
+Tag::Tag(uint8_t *attrHash, uint8_t *valHash, bool isPublisher, uint8_t *rHash, string r)
+{
+    memcpy(_attrHash, attrHash,HASH_SIZE);
+    memcpy(_valHash, valHash,HASH_SIZE);
+    if(!isPublisher){
+        memcpy(_rHash, rHash,HASH_SIZE);
+        _r = r;
+    }
+    _isPublisher = isPublisher;
+}
+
 
 //Empty Constructor
 Tag::Tag(){};
