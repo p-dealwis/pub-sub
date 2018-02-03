@@ -9,6 +9,7 @@
 void interestPermutation(int seed, vector<Tag> &array);
 void interestPermutationReverse(int seed, vector<bool> &array);
 vector<bool>  matchInterests(vector<Tag> &pubArray, vector<Tag> &subArray);
+vector<bool>  matchInterestsSingleBroker(vector<Tag> &pubArray, vector<Tag> &subArray);
 void printArray(vector<Tag> &array);
 void saveResults(string filename, vector<Tests> results);
 Gate* generateTree(vector<Tag> &subArray, vector<Gate*> &gates);

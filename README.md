@@ -12,7 +12,7 @@ Test Cases:
 ### To complie:
 
 ```
-g++ -std=gnu++14 -o main.out main.cpp test.cpp Timer.cpp Tag.cpp hash.cpp pub_sub.cpp Gate.cpp kpabe.cpp -I. -I/usr/local/include -I/usr/local/include/pbc `libgcrypt-config --libs` -lcrypto -lsodium -lpbc -lgmp -lmbedcrypto -lm
+g++ -std=gnu++14 -o main.out main.cpp test.cpp Timer.cpp Tag.cpp hash.cpp pub_sub.cpp Gate.cpp kpabe.cpp -I. -I/usr/local/include -I/usr/local/include/pbc -I/usr/local/include/miracl/  `libgcrypt-config --libs` -lcrypto -lsodium -lpbc -lgmp -lmbedcrypto -lm -lmiracl
 ```
 
 ## Dev Libraries Used

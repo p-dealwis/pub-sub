@@ -47,12 +47,12 @@ int main(int argc, char *argv[])
             cout << "Tags: " << j << endl;
             vector<vector<Timer>> tests = {};
             for(int k = 0; k < NUM_TESTS; k++){
-                vector<Timer> trial = test(randomString(testCases[testNum][i]), j);
+                vector<Timer> trial = singleBrokerTest(randomString(testCases[testNum][i]), j);
                 tests.push_back(trial);
             }
             vector<Timer> average = averageArray(tests);
-            cout << "Average time for tests: " << average[11].mseconds << "ms" << endl;
-            cout << "Average time for tests without initialisation time: " << average[10].mseconds << "ms" << endl;
+            cout << "Average time for tests: " << average.back().mseconds << "ms" << endl;
+            cout << "Average time for tests without initialisation time: " << average[average.size()-2].mseconds << "ms" << endl;
             results.push_back(Tests(average, testCases[testNum][i], j));
         }
         int j;
@@ -61,12 +61,12 @@ int main(int argc, char *argv[])
             cout << "Tags: " << j << endl;
             vector<vector<Timer>> tests = {};
             for(int k = 0; k < NUM_TESTS; k++){
-                vector<Timer> trial = test(randomString(testCases[testNum][i]), j);
+                vector<Timer> trial = singleBrokerTest(randomString(testCases[testNum][i]), j);
                 tests.push_back(trial);
             }
             vector<Timer> average = averageArray(tests);
-            cout << "Average time for tests: " << average[11].mseconds << "ms" << endl;
-            cout << "Average time for tests without initialisation time: " << average[10].mseconds << "ms" << endl;
+            cout << "Average time for tests: " << average.back().mseconds << "ms" << endl;
+            cout << "Average time for tests without initialisation time: " << average[average.size()-2].mseconds << "ms" << endl;
             results.push_back(Tests(average, testCases[testNum][i], j));
         }
 
