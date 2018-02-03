@@ -67,8 +67,8 @@ vector<bool> matchInterests(vector<Tag> &pubArray, vector<Tag> &subArray)
             if (pubArray[i] == subArray[j]){
                 if(pubArray[i].compareRHash(subArray[j])){
                     matches[j] = true;
-                    break;
                 }
+                break;
             }
         }
     }
