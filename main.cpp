@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
             cout << "Tags: " << j << endl;
             vector<vector<Timer>> tests = {};
             for(int k = 0; k < NUM_TESTS; k++){
-                vector<Timer> trial = singleBrokerTest(randomString(testCases[testNum][i]), j);
+                vector<Timer> trial = test(randomString(testCases[testNum][i]), j);
                 tests.push_back(trial);
             }
             vector<Timer> average = averageArray(tests);
@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
             cout << "Tags: " << j << endl;
             vector<vector<Timer>> tests = {};
             for(int k = 0; k < NUM_TESTS; k++){
-                vector<Timer> trial = singleBrokerTest(randomString(testCases[testNum][i]), j);
+                vector<Timer> trial = test(randomString(testCases[testNum][i]), j);
                 tests.push_back(trial);
             }
             vector<Timer> average = averageArray(tests);
