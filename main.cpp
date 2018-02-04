@@ -33,9 +33,9 @@ int main(int argc, char *argv[])
     if ( argc == 4 ) {
         filename = argv[3];
     } 
-    int testNum = atoi(argv[1]) - 1;
+    int testNum = atoi(argv[1]);
     cout << "    -------------------------------"<<  endl;
-    cout << "Testcase Number: " << testNum + 1 <<  endl;
+    cout << "Testcase Number: " << testNum<<  endl;
     cout << "Tests per run: " << NUM_TESTS <<  endl;
     cout << "Outputting to: " << filename <<  endl;
     cout << "    -------------------------------"<<  endl;
