@@ -101,8 +101,9 @@ vector<Timer> test(string text, int testSize)
     addTime("Encrypt of Payload by Pub", clock(), times);
 
     //Encryption of Interests
+    string ranString  = randomString(HASH_SIZE);
     for (int i = 0; i < subArray.size(); i++){
-        subArray[i].genSubHash(betaKey);
+        subArray[i].genSubHash(betaKey,ranString);
     }
     addTime("Interests Encryption", clock(), times);
 
@@ -243,8 +244,9 @@ vector<Timer> singleBrokerTest(string text, int testSize)
     // addTime("Encrypt of Payload by Pub", clock(), times);
 
     //Encryption of Interests
+    string ranString  = randomString(HASH_SIZE);
     for (int i = 0; i < subArray.size(); i++){
-        subArray[i].genSubHash(betaKey);
+        subArray[i].genSubHash(betaKey,ranString);
     }
     addTime("Interests Encryption", clock(), times);
 

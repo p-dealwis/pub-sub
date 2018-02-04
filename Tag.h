@@ -13,7 +13,7 @@ class Tag
   public:
     //Hash Values
     void genHash(uint8_t *key);
-    void genSubHash(uint8_t *key);
+    void genSubHash(uint8_t *key, string &r);
     bool compareRHash(Tag interest);
     uint8_t getAttrHash(int);
     uint8_t getValHash(int);

@@ -58,9 +58,9 @@ void Tag::genHash(uint8_t *key)
     KeyedHash(key, HASH_SIZE, (uint8_t *)_val, _valLen, _valHash, HASH_SIZE);
 }
 
-void Tag::genSubHash(uint8_t *key){
+void Tag::genSubHash(uint8_t *key, string &r){
     genHash(key);
-    _r  = randomString(HASH_SIZE);
+    _r = r;
     KeyedHash(_valHash, HASH_SIZE, (uint8_t *)_r.c_str(), HASH_SIZE, _rHash, HASH_SIZE);
 }
 
