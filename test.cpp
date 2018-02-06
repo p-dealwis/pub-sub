@@ -105,8 +105,7 @@ vector<Timer> test(string text, int testSize)
 
     // Create an attribute-based secret (attributes 1 and 3).
     element_s secret;
-    vector<int> encryptionAttributes{0, 1, 2, 3};
-    auto Cw = createSecret(pub, encryptionAttributes, secret);
+    auto Cw = createSecret(pub, attributeUniverse, secret);
 
     //Encrypt the message
     std::vector<uint8_t> ciphertext = encrypt(pub, attributeUniverse, text, Cw);
@@ -154,11 +153,10 @@ vector<Timer> test(string text, int testSize)
     addTime("Evaluation of tree by B3", clock(), times);
     
     //Decryption of payload
-    vector<int> testAttributes{0,1};
     string result;
     try
     {
-        result = decrypt(key, Cw, testAttributes, ciphertext);
+        result = decrypt(key, Cw, attributeUniverse, ciphertext);
     }
     catch (const UnsatError &e)
     {
