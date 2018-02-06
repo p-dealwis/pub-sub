@@ -195,9 +195,11 @@ Node Gate::createABETree()
     }
     else
     {
-        if(_right == -1){
+        if (_right == -1){
              return Node(_left);   
-        } else{
+        } else if (_left == -1) {
+            return Node(_right);  
+        } else {
             return Node(type, {Node(_left), Node(_right)});
         }
     }

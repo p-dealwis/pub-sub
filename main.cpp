@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     for (int i = 0; i < testCases[testNum].size(); i++){
         cout << "    -------------------------------"<<  endl;
         cout << "Started calculating for message encryption size: " << testCases[testNum][i]/1024 << "KB" << endl;
-        for (int j = 1; j <= 20; j++){
+        for (int j = 5; j <= 20; j++){
             cout << "Tags: " << j << endl;
             vector<vector<Timer>> tests = {};
             for(int k = 0; k < NUM_TESTS; k++){

@@ -31,8 +31,10 @@ vector<Timer> test(string text, int testSize)
     /* A 256 bit key */
     uint8_t *betaKey = (unsigned char *)"01234567890123456789012345678901";
 
-    vector<int> attributeUniverse{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-
+    vector<int> attributeUniverse;
+    for(int i = 0; i < testSize; i++){
+        attributeUniverse.push_back(i);
+    }
     vector<Tag> pubArray = {};
     vector<Tag> subArray = {};
     
@@ -72,12 +74,20 @@ vector<Timer> test(string text, int testSize)
     generateTree(subArray,gates);
     Gate* theRoot = gates.back();
     //Subscriber Tree
-    Gate AND1(Gate::Type::AND, 1, false, 2, false);
-    Gate OR1(Gate::Type::OR, &AND1, 0, false);
-    Gate OR3(Gate::Type::OR, 3, false, 4, false);
-    Gate OR4(Gate::Type::OR, &OR1, &OR3);
+    // Gate AND1(Gate::Type::AND,0,false,1,false);
+    // Gate AND2(Gate::Type::AND,2,false,3,false);
+    // Gate AND3(Gate::Type::AND,4,false,5,false);
+    // Gate AND4(Gate::Type::AND,6,false,7,false);
+    // Gate AND5(Gate::Type::AND,8,false,9,false);
 
-    OR4.makeParent();
+    // Gate OR1(Gate::Type::OR,&AND1,&AND2);
+    // Gate OR2(Gate::Type::OR,&AND3,&AND4);
+    // Gate OR3(Gate::Type::OR,&AND5,&OR6);
+    // Gate OR4(Gate::Type::OR,&OR1,&OR2);
+
+    // Gate OR5(Gate::Type::OR,&AND5,&OR4);
+
+    // Gate AND(Gate::Type::AND, 0,false,1,false);
 
     //KP-ABE
     PrivateParams priv;
@@ -86,7 +96,7 @@ vector<Timer> test(string text, int testSize)
 
     //Make access policy from subscriber tree and generate key
     Node* root = new Node;
-    *root = OR4.createABETree();
+    *root = theRoot->createABETree();
 
     addTime("Init ", clock(), times);
 
@@ -95,11 +105,11 @@ vector<Timer> test(string text, int testSize)
 
     // Create an attribute-based secret (attributes 1 and 3).
     element_s secret;
-    vector<int> encryptionAttributes{0, 1, 2, 3, 4};
+    vector<int> encryptionAttributes{0, 1, 2, 3};
     auto Cw = createSecret(pub, encryptionAttributes, secret);
 
     //Encrypt the message
-    std::vector<uint8_t> ciphertext = encrypt(pub, encryptionAttributes, text, Cw);
+    std::vector<uint8_t> ciphertext = encrypt(pub, attributeUniverse, text, Cw);
     addTime("Encrypt of Payload by Pub", clock(), times);
 
     //Encryption of Interests
@@ -144,7 +154,7 @@ vector<Timer> test(string text, int testSize)
     addTime("Evaluation of tree by B3", clock(), times);
     
     //Decryption of payload
-    vector<int> testAttributes{0, 1, 2, 4};
+    vector<int> testAttributes{0,1};
     string result;
     try
     {
