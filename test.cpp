@@ -9,8 +9,8 @@ using namespace std;
 #include <fstream>
 #include <string>
 #include <sstream>
-#include <unordered_map>
-// #include <google/dense_hash_map>
+// #include <unordered_map>
+#include <google/dense_hash_map>
 
 #include "pbc.h"
 #include "Gate.h"
@@ -124,8 +124,9 @@ vector<Timer> test(string text, int testSize)
     addTime("Encrypt Of Tags", clock(), times);
 
     // map<array<uint8_t,32> , Tag> searchArr;
-    // google::dense_hash_map<array<uint8_t,32> , Tag> searchArr;
-    unordered_map<string, Tag> searchArr;
+    google::dense_hash_map<string , Tag> searchArr;
+    searchArr.set_empty_key("sdnkjashdkjasd");
+    // unordered_map<string, Tag> searchArr;
     for(auto &tag: pubArray){
         searchArr[tag._attrHashString] = tag;
     }

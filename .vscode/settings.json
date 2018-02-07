@@ -47,7 +47,8 @@
         "thread": "cpp",
         "tuple": "cpp",
         "sstream": "cpp",
-        "dense_hash_map": "cpp"
+        "dense_hash_map": "cpp",
+        "string": "cpp"
     },
     "editor.detectIndentation": false
 }

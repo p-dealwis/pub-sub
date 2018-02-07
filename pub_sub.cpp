@@ -76,7 +76,7 @@ vector<bool> matchInterests(vector<Tag> &pubArray, vector<Tag> &subArray)
     return matches;
 }
 
-vector<bool> optimisedMatching(unordered_map<string, Tag> searchArr, vector<Tag> &subArray){
+vector<bool> optimisedMatching(google::dense_hash_map<string, Tag> searchArr, vector<Tag> &subArray){
     vector<bool> matches(subArray.size(),false);
     for(auto& subTag: subArray){
         Tag pubTag = searchArr[subTag._attrHashString];
