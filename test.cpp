@@ -9,6 +9,7 @@ using namespace std;
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <unordered_map>
 
 #include "pbc.h"
 #include "Gate.h"
@@ -136,7 +137,7 @@ vector<Timer> test(string text, int testSize)
     addTime("Encrypt Of Tags", clock(), times);
 
     // vector<vector<Tag>> searchArray(256);
-    map<array<uint8_t,32> , Tag> searchArr;
+    unordered_map<array<uint8_t,32> , Tag> searchArr;
     for(auto &tag: pubArray){
         searchArr[tag._attrHashCpp] = tag;
     }

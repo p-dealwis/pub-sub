@@ -7,6 +7,7 @@ using namespace std;
 #include <string>
 #include <sstream>
 
+
 #include "pub_sub.h"
 #include "Tag.h"
 #include "Gate.h"
@@ -75,14 +76,12 @@ vector<bool> matchInterests(vector<Tag> &pubArray, vector<Tag> &subArray)
     return matches;
 }
 
-vector<bool> optimisedMatching(map<array<uint8_t,32>, Tag> searchArr, vector<Tag> &subArray){
+vector<bool> optimisedMatching(unordered_map<array<uint8_t,32>, Tag> searchArr, vector<Tag> &subArray){
     vector<bool> matches(subArray.size(),false);
     for(auto& subTag: subArray){
         Tag pubTag = searchArr[subTag._attrHashCpp];
-        if (subTag == pubTag){
-            if(pubTag.compareRHash(subTag)){
-                matches[&subTag - &subArray[0]] = true;
-            }
+        if(pubTag.compareRHash(subTag)){
+            matches[&subTag - &subArray[0]] = true;
         }
     }
     return matches;
