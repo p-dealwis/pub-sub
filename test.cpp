@@ -135,17 +135,13 @@ vector<Timer> test(string text, int testSize)
     }
     addTime("Encrypt Of Tags", clock(), times);
 
-    // vector<vector<Tag>> searchArray(256);
-    map<array<uint8_t,32> , Tag> searchArr;
-    for(auto &tag: pubArray){
-        searchArr[tag._attrHashCpp] = tag;
-    }
-    // storeTags(pubArray, searchArray);
+    vector<vector<Tag>> searchArray(256);
+    storeTags(pubArray, searchArray);
     addTime("Hash Table Creation", clock(), times);
 
     //Done by B1 - Search
     // vector<bool> matches = matchInterests(pubArray, subArray);
-    vector<bool> matches = optimisedMatching(searchArr, subArray);
+    vector<bool> matches = optimisedMatching(searchArray, subArray);
     addTime("Search and  decryption time on B1", clock(), times);
 
     //Done by B2 - PRP Reverse

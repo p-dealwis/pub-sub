@@ -75,33 +75,20 @@ vector<bool> matchInterests(vector<Tag> &pubArray, vector<Tag> &subArray)
     return matches;
 }
 
-vector<bool> optimisedMatching(map<array<uint8_t,32>, Tag> searchArr, vector<Tag> &subArray){
+vector<bool> optimisedMatching(vector<vector<Tag>> &searchArray, vector<Tag> &subArray){
     vector<bool> matches(subArray.size(),false);
     for(auto& subTag: subArray){
-        Tag pubTag = searchArr[subTag._attrHashCpp];
-        if (subTag == pubTag){
-            if(pubTag.compareRHash(subTag)){
-                matches[&subTag - &subArray[0]] = true;
+        for(auto& tag: searchArray[(int)subTag.getAttrHash(0)]){
+            if (tag == subTag){
+                if(tag.compareRHash(subTag)){
+                    matches[&subTag - &subArray[0]] = true;
+                }
             }
+            break;
         }
     }
     return matches;
 }
-
-// vector<bool> optimisedMatchingOLD(vector<vector<Tag>> &searchArray, vector<Tag> &subArray){
-//     vector<bool> matches(subArray.size(),false);
-//     for(auto& subTag: subArray){
-//         for(auto& tag: searchArray[(int)subTag.getAttrHash(0)]){
-//             if (tag == subTag){
-//                 if(tag.compareRHash(subTag)){
-//                     matches[&subTag - &subArray[0]] = true;
-//                 }
-//             }
-//             break;
-//         }
-//     }
-//     return matches;
-// }
 
 void storeTags(vector<Tag> &pubArray, vector<vector<Tag>> &searchArray){
     for(auto& tag: pubArray){
