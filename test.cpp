@@ -10,6 +10,7 @@ using namespace std;
 #include <string>
 #include <sstream>
 #include <unordered_map>
+// #include <google/dense_hash_map>
 
 #include "pbc.h"
 #include "Gate.h"
@@ -17,6 +18,7 @@ using namespace std;
 #include "pub_sub.h"
 #include "kpabe.hpp"
 #include "Timer.hpp"
+
 
 vector<Timer> test(string text, int testSize)
 {
@@ -74,21 +76,6 @@ vector<Timer> test(string text, int testSize)
     vector<Gate*> gates;
     generateTree(subArray,gates);
     Gate* theRoot = gates.back();
-    //Subscriber Tree
-    // Gate AND1(Gate::Type::AND,0,false,1,false);
-    // Gate AND2(Gate::Type::AND,2,false,3,false);
-    // Gate AND3(Gate::Type::AND,4,false,5,false);
-    // Gate AND4(Gate::Type::AND,6,false,7,false);
-    // Gate AND5(Gate::Type::AND,8,false,9,false);
-
-    // Gate OR1(Gate::Type::OR,&AND1,&AND2);
-    // Gate OR2(Gate::Type::OR,&AND3,&AND4);
-    // Gate OR3(Gate::Type::OR,&AND5,&OR6);
-    // Gate OR4(Gate::Type::OR,&OR1,&OR2);
-
-    // Gate OR5(Gate::Type::OR,&AND5,&OR4);
-
-    // Gate AND(Gate::Type::AND, 0,false,1,false);
 
     //KP-ABE
     PrivateParams priv;
@@ -136,17 +123,17 @@ vector<Timer> test(string text, int testSize)
     }
     addTime("Encrypt Of Tags", clock(), times);
 
-    // vector<vector<Tag>> searchArray(256);
-    unordered_map<array<uint8_t,32> , Tag> searchArr;
+    // map<array<uint8_t,32> , Tag> searchArr;
+    // google::dense_hash_map<array<uint8_t,32> , Tag> searchArr;
+    unordered_map<string, Tag> searchArr;
     for(auto &tag: pubArray){
-        searchArr[tag._attrHashCpp] = tag;
+        searchArr[tag._attrHashString] = tag;
     }
-    // storeTags(pubArray, searchArray);
     addTime("Hash Table Creation", clock(), times);
 
     //Done by B1 - Search
-    // vector<bool> matches = matchInterests(pubArray, subArray);
     vector<bool> matches = optimisedMatching(searchArr, subArray);
+    // vector<bool> matches(testSize,true);
     addTime("Search and  decryption time on B1", clock(), times);
 
     //Done by B2 - PRP Reverse

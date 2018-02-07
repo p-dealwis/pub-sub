@@ -54,7 +54,7 @@ class Tag
     void print(bool = true, bool = true, bool = true, bool = true, bool = true);
 
     //Public Variables
-    array<uint8_t,32> _attrHashCpp;
+    string _attrHashString ="";
 
   private:
     //Variables

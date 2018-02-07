@@ -45,7 +45,9 @@
         "mutex": "cpp",
         "ratio": "cpp",
         "thread": "cpp",
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "sstream": "cpp",
+        "dense_hash_map": "cpp"
     },
     "editor.detectIndentation": false
 }
