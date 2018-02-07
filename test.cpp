@@ -108,7 +108,7 @@ vector<Timer> test(string text, int testSize)
     auto Cw = createSecret(pub, attributeUniverse, secret);
 
     //Encrypt the message
-    std::vector<uint8_t> ciphertext = encrypt(pub, attributeUniverse, text, Cw);
+    std::vector<uint8_t> ciphertext = encrypt(pub, attributeUniverse, text, Cw,times);
     addTime("Encrypt of Payload by Pub", clock(), times);
 
     //Encryption of Interests
@@ -135,8 +135,17 @@ vector<Timer> test(string text, int testSize)
     }
     addTime("Encrypt Of Tags", clock(), times);
 
+    // vector<vector<Tag>> searchArray(256);
+    map<array<uint8_t,32> , Tag> searchArr;
+    for(auto &tag: pubArray){
+        searchArr[tag._attrHashCpp] = tag;
+    }
+    // storeTags(pubArray, searchArray);
+    addTime("Hash Table Creation", clock(), times);
+
     //Done by B1 - Search
-    vector<bool> matches = matchInterests(pubArray, subArray);
+    // vector<bool> matches = matchInterests(pubArray, subArray);
+    vector<bool> matches = optimisedMatching(searchArr, subArray);
     addTime("Search and  decryption time on B1", clock(), times);
 
     //Done by B2 - PRP Reverse
@@ -156,7 +165,7 @@ vector<Timer> test(string text, int testSize)
     string result;
     try
     {
-        result = decrypt(key, Cw, attributeUniverse, ciphertext);
+        result = decrypt(key, Cw, attributeUniverse, ciphertext,times);
     }
     catch (const UnsatError &e)
     {

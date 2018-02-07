@@ -8,6 +8,9 @@
 
 #include <pbc.h>
 
+#include "Timer.hpp"
+
+
 #pragma GCC visibility push(default)
 
 /**
@@ -176,7 +179,8 @@ void recoverSecret(DecryptionKey &key,
 std::vector<uint8_t> encrypt(PublicParams &params,
                              const std::vector<int> &attributes,
                              const std::string &message,
-                             Cw_t &Cw);
+                             Cw_t &Cw,
+                             vector<Timer> &times);
 
 /**
  * @brief Decrypts an attribute-encrypted message.
@@ -186,7 +190,8 @@ std::vector<uint8_t> encrypt(PublicParams &params,
 std::string decrypt(DecryptionKey &key,
                     Cw_t &Cw,
                     const std::vector<int> &attributes,
-                    const std::vector<uint8_t> &ciphertext);
+                    const std::vector<uint8_t> &ciphertext,
+                    vector<Timer> &times);
 
 class UnsatError : public std::exception
 {

@@ -13,6 +13,8 @@
 
 #include "kpabe.hpp"
 
+#include "Timer.hpp"
+
 //Debugging
 #include <iostream>
 
@@ -484,7 +486,8 @@ void recoverSecret(DecryptionKey &key,
 std::vector<uint8_t> encrypt(PublicParams &params,
                              const vector<int> &attributes,
                              const string &message,
-                             Cw_t &Cw)
+                             Cw_t &Cw,
+                             vector<Timer> &times)
 {
     element_s Cs;
     Cw = createSecret(params, attributes, Cs);
@@ -496,6 +499,7 @@ std::vector<uint8_t> encrypt(PublicParams &params,
 
     array<uint8_t, AES_KEY_SIZE> key;
     hashElement(&Cs, key.data());
+    addTime("Encryption of KP-ABE", clock(), times);
     size_t clength = 0;
     symEncrypt((uint8_t *)message.c_str(), messageLen, key.data(), ciphertext.data(), &clength);
     ciphertext.resize(clength);
@@ -508,7 +512,9 @@ std::vector<uint8_t> encrypt(PublicParams &params,
 string decrypt(DecryptionKey &key,
                Cw_t &Cw,
                const vector<int> &attributes,
-               const vector<uint8_t> &ciphertext)
+               const vector<uint8_t> &ciphertext,
+               vector<Timer> &times
+               )
 {
     element_s Cs;
     recoverSecret(key, Cw, attributes, Cs);
@@ -517,6 +523,7 @@ string decrypt(DecryptionKey &key,
 
     array<uint8_t, AES_KEY_SIZE> symKey;
     hashElement(&Cs, symKey.data());
+    addTime("Decryption of KP-ABE", clock(), times);
     symDecrypt(ciphertext.data(), ciphertext.size(), symKey.data(), plaintext.data(), &plaintextLen);
     plaintext.resize(plaintextLen);
     string message((char *)plaintext.data());

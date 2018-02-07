@@ -29,7 +29,23 @@
         "array": "cpp",
         "fstream": "cpp",
         "slist": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "functional": "cpp",
+        "cmath": "cpp",
+        "csignal": "cpp",
+        "cstdarg": "cpp",
+        "cstddef": "cpp",
+        "cstring": "cpp",
+        "ctime": "cpp",
+        "atomic": "cpp",
+        "chrono": "cpp",
+        "codecvt": "cpp",
+        "condition_variable": "cpp",
+        "memory": "cpp",
+        "mutex": "cpp",
+        "ratio": "cpp",
+        "thread": "cpp",
+        "tuple": "cpp"
     },
     "editor.detectIndentation": false
 }

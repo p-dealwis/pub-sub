@@ -9,6 +9,8 @@
 void interestPermutation(int seed, vector<Tag> &array);
 void interestPermutationReverse(int seed, vector<bool> &array);
 vector<bool>  matchInterests(vector<Tag> &pubArray, vector<Tag> &subArray);
+vector<bool> optimisedMatching(map<array<uint8_t,32>, Tag> searchArr, vector<Tag> &subArray);
+void storeTags(vector<Tag> &pubArray,vector<vector<Tag>> &searchArray);
 vector<bool>  matchInterestsSingleBroker(vector<Tag> &pubArray, vector<Tag> &subArray);
 void printArray(vector<Tag> &array);
 void saveResults(string filename, vector<Tests> results);
