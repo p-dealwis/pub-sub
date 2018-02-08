@@ -90,13 +90,11 @@ vector<bool> optimisedMatching(unordered_map<string, Tag> searchArr, vector<Tag>
 
 vector<bool> matchInterestsSingleBroker(vector<Tag> &pubArray, vector<Tag> &subArray)
 {
-    int i, j;
     vector<bool> matches(subArray.size(),false);
-    for (j = 0; j < subArray.size(); j++)
+    for (int i = 0; i < subArray.size(); i++)
     {
         if(pubArray[i].compareRHash(subArray[i])){
             matches[i] = true;
-            break;
         }
     }
     return matches;

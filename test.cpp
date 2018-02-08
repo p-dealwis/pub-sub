@@ -2,7 +2,6 @@ using namespace std;
 
 #include "test.hpp"
 
-#include <gcrypt.h>
 #include <sodium.h>
 #include <iostream>
 #include <time.h>
@@ -24,12 +23,6 @@ vector<Timer> test(string text, int testSize)
 {
     vector<Timer> times = {};
     addTime("Launch Time", clock(), times);
-    // Initialise GCRYPT
-    if (!gcry_check_version(GCRYPT_VERSION))
-    {
-        fputs("libgcrypt version mismatch\n", stderr);
-        exit(2);
-    }
 
     /* A 256 bit key */
     uint8_t *betaKey = (unsigned char *)"01234567890123456789012345678901";
@@ -62,7 +55,6 @@ vector<Timer> test(string text, int testSize)
 
         data.push_back( record );
     }
-
     
     for (int i = 0; i < testSize; i++)
     {
@@ -171,17 +163,9 @@ vector<Timer> singleBrokerTest(string text, int testSize)
 {
     vector<Timer> times = {};
     addTime("Launch Time", clock(), times);
-    // Initialise GCRYPT
-    if (!gcry_check_version(GCRYPT_VERSION))
-    {
-        fputs("libgcrypt version mismatch\n", stderr);
-        exit(2);
-    }
 
     /* A 256 bit key */
     uint8_t *betaKey = (unsigned char *)"01234567890123456789012345678901";
-
-    vector<int> attributeUniverse{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
     vector<Tag> pubArray = {};
     vector<Tag> subArray = {};
@@ -240,8 +224,6 @@ vector<Timer> singleBrokerTest(string text, int testSize)
     //Done by B1 - Search
     vector<bool> matches = matchInterestsSingleBroker(pubArray, subArray);
     addTime("Search and  decryption time on B1", clock(), times);
-
-    //Send to B3 - Structure
 
     //Done by B3 - Evaluation of Tree
     int eval = theRoot->evaluate(matches);
