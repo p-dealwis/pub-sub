@@ -2,7 +2,6 @@ using namespace std;
 
 #include "test.hpp"
 
-#include <gcrypt.h>
 #include <sodium.h>
 #include <iostream>
 #include <time.h>
@@ -21,12 +20,6 @@ vector<Timer> test(string text, int testSize)
 {
     vector<Timer> times = {};
     addTime("Launch Time", clock(), times);
-    // Initialise GCRYPT
-    if (!gcry_check_version(GCRYPT_VERSION))
-    {
-        fputs("libgcrypt version mismatch\n", stderr);
-        exit(2);
-    }
 
     /* A 256 bit key */
     uint8_t *betaKey = (unsigned char *)"01234567890123456789012345678901";
@@ -73,21 +66,6 @@ vector<Timer> test(string text, int testSize)
     vector<Gate*> gates;
     generateTree(subArray,gates);
     Gate* theRoot = gates.back();
-    //Subscriber Tree
-    // Gate AND1(Gate::Type::AND,0,false,1,false);
-    // Gate AND2(Gate::Type::AND,2,false,3,false);
-    // Gate AND3(Gate::Type::AND,4,false,5,false);
-    // Gate AND4(Gate::Type::AND,6,false,7,false);
-    // Gate AND5(Gate::Type::AND,8,false,9,false);
-
-    // Gate OR1(Gate::Type::OR,&AND1,&AND2);
-    // Gate OR2(Gate::Type::OR,&AND3,&AND4);
-    // Gate OR3(Gate::Type::OR,&AND5,&OR6);
-    // Gate OR4(Gate::Type::OR,&OR1,&OR2);
-
-    // Gate OR5(Gate::Type::OR,&AND5,&OR4);
-
-    // Gate AND(Gate::Type::AND, 0,false,1,false);
 
     //KP-ABE
     PrivateParams priv;
@@ -140,15 +118,12 @@ vector<Timer> test(string text, int testSize)
     addTime("Hash Table Creation", clock(), times);
 
     //Done by B1 - Search
-    // vector<bool> matches = matchInterests(pubArray, subArray);
     vector<bool> matches = optimisedMatching(searchArray, subArray);
     addTime("Search and  decryption time on B1", clock(), times);
 
     //Done by B2 - PRP Reverse
     interestPermutationReverse(r, matches);
     addTime("PRP reverse B2", clock(), times);
-
-    //Send to B3 - Structure
 
     //Done by B3 - Evaluation of Tree
     int eval = theRoot->evaluate(matches);
@@ -179,13 +154,7 @@ vector<Timer> singleBrokerTest(string text, int testSize)
 {
     vector<Timer> times = {};
     addTime("Launch Time", clock(), times);
-    // Initialise GCRYPT
-    if (!gcry_check_version(GCRYPT_VERSION))
-    {
-        fputs("libgcrypt version mismatch\n", stderr);
-        exit(2);
-    }
-
+    
     /* A 256 bit key */
     uint8_t *betaKey = (unsigned char *)"01234567890123456789012345678901";
 
