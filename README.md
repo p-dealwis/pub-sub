@@ -12,15 +12,14 @@ Test Cases:
 ### To complie:
 
 ```
-g++ -std=gnu++14 -o main.out main.cpp test.cpp Timer.cpp Tag.cpp hash.cpp pub_sub.cpp Gate.cpp kpabe.cpp -I. -I/usr/local/include -I/usr/local/include/pbc -I/usr/local/include/miracl/  `libgcrypt-config --libs` -lcrypto -lsodium -lpbc -lgmp -lmbedcrypto -lm -lmiracl
+g++ -std=gnu++14 -o main.out main.cpp test.cpp Timer.cpp Tag.cpp hash.cpp pub_sub.cpp Gate.cpp kpabe.cpp -I. -I/usr/local/include -I/usr/local/include/pbc -I/usr/local/include/miracl/ -lsodium -lpbc -lgmp -lmbedcrypto -lm -lmiracl
 ```
 
 ## Dev Libraries Used
 [linker = args]
 
-1. **Libgcrypt** - libgcrypt20-dev = `libgcrypt-config --libs`
-2. **OpenSSL** - libssl-dev = `-lssl -lcrypto`
-3. **LibSodium** - libsodium-dev (Generating random seed numbers and keys) = `-lsodium`
+1. **LibSodium** - libsodium-dev (Generating random seed numbers and keys) = `-lsodium`
+2. **Miracl** - https://github.com/miracl/MIRACL = `-lmiracl`
 
 ## KP-ABE Library Dependencies
 1. **kpabe-yct14-cpp** - https://github.com/ikalchev/kpabe-yct14-cpp.git = `-lkpabe`
