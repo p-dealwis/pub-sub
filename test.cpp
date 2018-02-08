@@ -154,13 +154,7 @@ vector<Timer> singleBrokerTest(string text, int testSize)
 {
     vector<Timer> times = {};
     addTime("Launch Time", clock(), times);
-    // Initialise GCRYPT
-    if (!gcry_check_version(GCRYPT_VERSION))
-    {
-        fputs("libgcrypt version mismatch\n", stderr);
-        exit(2);
-    }
-
+    
     /* A 256 bit key */
     uint8_t *betaKey = (unsigned char *)"01234567890123456789012345678901";
 
