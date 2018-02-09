@@ -159,7 +159,10 @@ vector<Timer> singleBrokerTest(string text, int testSize)
     /* A 256 bit key */
     uint8_t *betaKey = (unsigned char *)"01234567890123456789012345678901";
 
-    vector<int> attributeUniverse{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<int> attributeUniverse;
+    for(int i = 0; i < testSize; i++){
+        attributeUniverse.push_back(i);
+    }
 
     vector<Tag> pubArray = {};
     vector<Tag> subArray = {};
