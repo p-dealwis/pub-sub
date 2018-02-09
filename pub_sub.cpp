@@ -92,20 +92,17 @@ vector<bool> optimisedMatching(vector<vector<Tag>> &searchArray, vector<Tag> &su
 
 void storeTags(vector<Tag> &pubArray, vector<vector<Tag>> &searchArray){
     for(auto& tag: pubArray){
-        // cout << (int)tag.getAttrHash(0) << endl;
         searchArray[(int)tag.getAttrHash(0)].push_back(tag);
     }
 }
 
 vector<bool> matchInterestsSingleBroker(vector<Tag> &pubArray, vector<Tag> &subArray)
 {
-    int i, j;
     vector<bool> matches(subArray.size(),false);
-    for (j = 0; j < subArray.size(); j++)
+    for (int i = 0; i < subArray.size(); i++)
     {
         if(pubArray[i].compareRHash(subArray[i])){
             matches[i] = true;
-            break;
         }
     }
     return matches;
