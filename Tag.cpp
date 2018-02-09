@@ -40,7 +40,6 @@ void Tag::genHash(uint8_t *key)
 {
     KeyedHash(key, HASH_SIZE, (uint8_t *)_attr, _attrLen, _attrHash, HASH_SIZE);
     KeyedHash(key, HASH_SIZE, (uint8_t *)_val, _valLen, _valHash, HASH_SIZE);
-    std::copy(std::begin(_attrHash), std::end(_attrHash), _attrHashCpp.begin());
 }
 
 void Tag::genSubHash(uint8_t *key, string &r){
@@ -53,7 +52,6 @@ void Tag::genSubHash(uint8_t *key, string &r){
 bool Tag::compareRHash(Tag interest){
     uint8_t tempHash[HASH_SIZE];
     KeyedHash(_valHash, HASH_SIZE, (uint8_t *)interest._r.c_str(), HASH_SIZE, tempHash, HASH_SIZE);
-    // KeyedHash(_valHash, HASH_SIZE, (uint8_t *)interest._r.c_str(), HASH_SIZE, _rHash, HASH_SIZE);
     return memcmp(tempHash, interest._rHash, HASH_SIZE) == 0;
 }
 
@@ -98,7 +96,6 @@ Tag::Tag(const Tag &other)
     memcpy(_val, other._val, INPUT_SIZE);
 
     //Copy Hashes of attributes and values
-    copy(begin(other._attrHashCpp),end(other._attrHashCpp),begin(_attrHashCpp));
     memcpy(_attrHash, other._attrHash, HASH_SIZE);
     memcpy(_valHash, other._valHash, HASH_SIZE);
     memcpy(_rHash, other._rHash, HASH_SIZE);
@@ -130,7 +127,6 @@ Tag &Tag::operator=(const Tag &other)
     memcpy(_val, other._val, INPUT_SIZE);
 
     //Copy Hashes of attributes and values
-    copy(begin(other._attrHashCpp),end(other._attrHashCpp),begin(_attrHashCpp));
     memcpy(_attrHash, other._attrHash, HASH_SIZE);
     memcpy(_valHash, other._valHash, HASH_SIZE);
     memcpy(_rHash, other._rHash, HASH_SIZE);
@@ -157,7 +153,6 @@ Tag::Tag(Tag &&other)
     memset(other._val, 0, INPUT_SIZE);
 
     //Copy Hashes of attributes and values
-    copy(begin(other._attrHashCpp),end(other._attrHashCpp),begin(_attrHashCpp));
     memcpy(_attrHash, other._attrHash, HASH_SIZE);
     memcpy(_valHash, other._valHash, HASH_SIZE);
     memcpy(_rHash, other._rHash, HASH_SIZE);
@@ -202,7 +197,6 @@ Tag &Tag::operator=(Tag &&other)
     memset(other._val, 0, INPUT_SIZE);
 
     //Copy Hashes of attributes and values
-    copy(begin(other._attrHashCpp),end(other._attrHashCpp),begin(_attrHashCpp));
     memcpy(_attrHash, other._attrHash, HASH_SIZE);
     memcpy(_valHash, other._valHash, HASH_SIZE);
     memcpy(_rHash, other._rHash, HASH_SIZE);

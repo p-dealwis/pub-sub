@@ -92,7 +92,6 @@ vector<bool> optimisedMatching(vector<vector<Tag>> &searchArray, vector<Tag> &su
 
 void storeTags(vector<Tag> &pubArray, vector<vector<Tag>> &searchArray){
     for(auto& tag: pubArray){
-        // cout << (int)tag.getAttrHash(0) << endl;
         searchArray[(int)tag.getAttrHash(0)].push_back(tag);
     }
 }

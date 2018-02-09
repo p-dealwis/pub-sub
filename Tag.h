@@ -53,9 +53,6 @@ class Tag
     //Debugging
     void print(bool = true, bool = true, bool = true, bool = true, bool = true);
 
-    //Public Variables
-    array<uint8_t,32> _attrHashCpp;
-
   private:
     //Variables
     //->For Tags/Interests
