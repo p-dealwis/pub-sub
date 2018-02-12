@@ -11,7 +11,7 @@ using namespace std;
 #define KB 1024
 #define MB KB*KB
 
-vector<int> case0 = {MB};
+vector<int> case0 = {32*MB};
 vector<int> case1 = {KB,MB, MB*2,MB*4,MB*8,MB*16};
 vector<int> case2 = {MB*32,MB*64};
 vector<int> case3 = {MB*128};
