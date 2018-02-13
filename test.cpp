@@ -79,11 +79,12 @@ vector<Timer> test(string text, int testSize)
     addTime("Init ", clock(), times);
 
     auto key = keyGeneration(priv, *root);
-    addTime("Decryption key generation", clock(), times);
 
     // Create an attribute-based secret (attributes 1 and 3).
     element_s secret;
     auto Cw = createSecret(pub, attributeUniverse, secret);
+
+    addTime("Decryption key generation", clock(), times);
 
     //Encrypt the message
     std::vector<uint8_t> ciphertext = encrypt(pub, attributeUniverse, text, Cw,times);
@@ -158,7 +159,10 @@ vector<Timer> singleBrokerTest(string text, int testSize)
     /* A 256 bit key */
     uint8_t *betaKey = (unsigned char *)"01234567890123456789012345678901";
 
-    vector<int> attributeUniverse{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<int> attributeUniverse;
+    for(int i = 0; i < testSize; i++){
+        attributeUniverse.push_back(i);
+    }
 
     vector<Tag> pubArray = {};
     vector<Tag> subArray = {};
@@ -199,7 +203,27 @@ vector<Timer> singleBrokerTest(string text, int testSize)
     generateTree(subArray,gates);
     Gate* theRoot = gates.back();
 
+    //KP-ABE
+    PrivateParams priv;
+    PublicParams pub;
+    setup(attributeUniverse, pub, priv);
+
+    //Make access policy from subscriber tree and generate key
+    Node* root = new Node;
+    *root = theRoot->createABETree();
+
     addTime("Init ", clock(), times);
+
+    auto key = keyGeneration(priv, *root);
+
+    // Create an attribute-based secret (attributes 1 and 3).
+    element_s secret;
+    auto Cw = createSecret(pub, attributeUniverse, secret);
+    addTime("Decryption key generation", clock(), times);
+
+    //Encrypt the message
+    std::vector<uint8_t> ciphertext = encrypt(pub, attributeUniverse, text, Cw,times);
+    addTime("Encrypt of Payload by Pub", clock(), times);
 
     //Encryption of Interests
     string ranString  = randomString(HASH_SIZE);
@@ -226,6 +250,21 @@ vector<Timer> singleBrokerTest(string text, int testSize)
     else cout << "Evaluation Failiure" << endl;
     addTime("Evaluation of tree by B3", clock(), times);
 
+        //Decryption of payload
+    string result;
+    try
+    {
+        result = decrypt(key, Cw, attributeUniverse, ciphertext,times);
+    }
+    catch (const UnsatError &e)
+    {
+        cout << "Decryption Error" << endl;
+    }
+    addTime("Decryption of Payload by sub", clock(), times);
+    totalTime(times, false);
+    totalTime(times);
+    if (result == text) ;//cout << "Decrypted Successfully" << endl;
+    else cout << "Unsuccessful Decryption" << endl;
     return times;
 }
 
