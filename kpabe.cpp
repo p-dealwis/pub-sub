@@ -532,3 +532,49 @@ string decrypt(DecryptionKey &key,
 
     return message;
 }
+
+std::vector<uint8_t> encrypt(PublicParams &params,
+                             const vector<int> &attributes,
+                             const string &message,
+                             Cw_t &Cw)
+{
+    element_s Cs;
+    Cw = createSecret(params, attributes, Cs);
+
+    // Use the key to encrypt the data using a symmetric cipher.
+    size_t messageLen = message.size() + 1; // account for terminating byte
+    size_t cipherMaxLen = messageLen + AES_BLOCK_SIZE;
+    vector<uint8_t> ciphertext(cipherMaxLen);
+
+    array<uint8_t, AES_KEY_SIZE> key;
+    hashElement(&Cs, key.data());
+    size_t clength = 0;
+    symEncrypt((uint8_t *)message.c_str(), messageLen, key.data(), ciphertext.data(), &clength);
+    ciphertext.resize(clength);
+
+    element_clear(&Cs);
+
+    return ciphertext;
+}
+
+string decrypt(DecryptionKey &key,
+               Cw_t &Cw,
+               const vector<int> &attributes,
+               const vector<uint8_t> &ciphertext)
+{
+    element_s Cs;
+    recoverSecret(key, Cw, attributes, Cs);
+    vector<uint8_t> plaintext(ciphertext.size());
+    size_t plaintextLen = 0;
+
+    array<uint8_t, AES_KEY_SIZE> symKey;
+    hashElement(&Cs, symKey.data());
+    symDecrypt(ciphertext.data(), ciphertext.size(), symKey.data(), plaintext.data(), &plaintextLen);
+    plaintext.resize(plaintextLen);
+    string message((char *)plaintext.data());
+
+    element_clear(&Cs);
+
+    return message;
+}
+

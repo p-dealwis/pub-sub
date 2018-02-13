@@ -193,6 +193,26 @@ std::string decrypt(DecryptionKey &key,
                     const std::vector<uint8_t> &ciphertext,
                     vector<Timer> &times);
 
+/**
+ * @brief Encrypts a message under a given attribute set.
+ *
+ * This is the actual Encryption algorithm, but without a HMAC.
+ */
+std::vector<uint8_t> encrypt(PublicParams &params,
+                             const std::vector<int> &attributes,
+                             const std::string &message,
+                             Cw_t &Cw);
+
+/**
+ * @brief Decrypts an attribute-encrypted message.
+ *
+ * This is the actual Decryptoon algorithm, but without a HMAC.
+ */
+std::string decrypt(DecryptionKey &key,
+                    Cw_t &Cw,
+                    const std::vector<int> &attributes,
+                    const std::vector<uint8_t> &ciphertext);
+
 class UnsatError : public std::exception
 {
 };
